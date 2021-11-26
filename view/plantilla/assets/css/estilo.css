@@ -1,0 +1,13 @@
+body{
+    background: url("../img/fondo.jpeg");
+    background-size: 100%;
+}
+
+.page-sidebar {
+    background-color: #272727;
+}
+
+.header{
+    background-color: #272727;
+}
+
