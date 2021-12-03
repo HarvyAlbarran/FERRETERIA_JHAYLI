@@ -102,12 +102,32 @@
                             <span class="nav-label">Persona</span><i class="fa fa-angle-left arrow"></i></a>
                     </li>
                     <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','cliente/vista_mantenimiento_cliente.php')"><i class="sidebar-item-icon ti-id-badge"></i>
+                            <span class="nav-label">Cliente</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>
+                    <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','proveedor/vista_mantenimiento_proveedor.php')"><i class="sidebar-item-icon ti-id-badge"></i>
+                            <span class="nav-label">Proveedor</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>
+                    <li>
                         <a href="javascript:cargar_contenido('contenido_principal','usuario/vista_mantenimiento_usuario.php')"><i class="sidebar-item-icon fa fa-users"></i>
                             <span class="nav-label">Usuario</span><i class="fa fa-angle-left arrow"></i></a>
                     </li>
                     <li>
                         <a href="javascript:cargar_contenido('contenido_principal','categoria/vista_mantenimiento_categoria.php')"><i class="sidebar-item-icon fa fa-cubes"></i>
                             <span class="nav-label">Categoría</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>
+                    <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','unidadMedida/vista_mantenimiento_unidadMedida.php')"><i class="sidebar-item-icon fa fa-list-ol"></i>
+                            <span class="nav-label">Unidad de Medida</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>
+                    <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','producto/vista_matenimiento_producto.php')"><i class="sidebar-item-icon fa fa-dropbox"></i>
+                            <span class="nav-label">Productos</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>
+                    <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','ingreso/vista_matenimiento_ingreso.php')"><i class="sidebar-item-icon fa fa-dropbox"></i>
+                            <span class="nav-label">Ingresos</span><i class="fa fa-angle-left arrow"></i></a>
                     </li>
                 </ul>
             </div>
@@ -256,6 +276,40 @@
             patron =/[0-9]/;
             tecla_final = String.fromCharCode(tecla);
             return patron.test(tecla_final);
+        }
+
+        function filterFloat(evt,input){
+            var key = window.Event ? evt.which : evt.keyCode;
+            var chark = String.fromCharCode(key);
+            var tempValue = input.value+chark;
+            if(key >= 48 && key <=57){
+                if(filter(tempValue) === false){
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                if(key == 8 || key == 13 || key == 0){
+                    return true;
+                }else if(key == 46){
+                    if(filter(tempValue) === false){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                }else{
+                    return false;
+                }
+            }
+        }
+
+        function filter(__val__){
+            var preg = /^([0-9]+\.?[0-9]{0,2})$/;
+            if(preg.test(__val__) === true){
+                return true;
+            }else{
+                return false;
+            }
         }
     </script>
 </body>

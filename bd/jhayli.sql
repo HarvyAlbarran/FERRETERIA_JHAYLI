@@ -26,7 +26,12 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   PRIMARY KEY (`categoria_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jhayli.categoria: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
+INSERT INTO `categoria` (`categoria_id`, `categoria_nombre`, `categoria_fregistro`, `categoria_estatus`) VALUES
+	(1, 'CONSTRUCCIÓN', '2021-11-25', 'ACTIVO'),
+	(2, 'ELÉCTRICOS', '2021-11-25', 'ACTIVO');
+/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.cliente
 CREATE TABLE IF NOT EXISTS `cliente` (
@@ -39,7 +44,9 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   CONSTRAINT `cliente_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jhayli.cliente: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.detalle_ingreso
 CREATE TABLE IF NOT EXISTS `detalle_ingreso` (
@@ -55,7 +62,9 @@ CREATE TABLE IF NOT EXISTS `detalle_ingreso` (
   CONSTRAINT `detalle_ingreso_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`producto_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jhayli.detalle_ingreso: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `detalle_ingreso` DISABLE KEYS */;
+/*!40000 ALTER TABLE `detalle_ingreso` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.detalle_venta
 CREATE TABLE IF NOT EXISTS `detalle_venta` (
@@ -72,7 +81,9 @@ CREATE TABLE IF NOT EXISTS `detalle_venta` (
   CONSTRAINT `detalle_venta_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`producto_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jhayli.detalle_venta: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `detalle_venta` DISABLE KEYS */;
+/*!40000 ALTER TABLE `detalle_venta` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.ingreso
 CREATE TABLE IF NOT EXISTS `ingreso` (
@@ -93,7 +104,9 @@ CREATE TABLE IF NOT EXISTS `ingreso` (
   CONSTRAINT `ingreso_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jhayli.ingreso: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `ingreso` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ingreso` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.persona
 CREATE TABLE IF NOT EXISTS `persona` (
@@ -110,7 +123,17 @@ CREATE TABLE IF NOT EXISTS `persona` (
   PRIMARY KEY (`persona_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jhayli.persona: ~6 rows (aproximadamente)
+/*!40000 ALTER TABLE `persona` DISABLE KEYS */;
+INSERT INTO `persona` (`persona_id`, `persona_nombre`, `persona_apepat`, `persona_apemat`, `persona_nrodocumento`, `persona_tipodocumento`, `persona_sexo`, `persona_telefono`, `persona_fregistro`, `persona_estatus`) VALUES
+	(1, 'HARVY', 'ALBARRAN', 'SALAZAR', '48251369', 'DNI', 'MASCULINO', '984198324', '2021-11-23', 'ACTIVO'),
+	(2, 'JENNIFFER GERALDINE', 'DIAZ', 'CORONADO', '46894656', 'DNI', 'FEMENINO', '986413872', '2021-11-24', 'ACTIVO'),
+	(3, 'PERLA', 'PAICO', 'SANTOS', '5648315821', 'PASAPORTE', 'FEMENINO', '982572310', '2021-11-24', 'ACTIVO'),
+	(4, 'SEGUNDO', 'ASENJO', 'SAAVEDRA', '78456632', 'DNI', 'MASCULINO', '982158232', '2021-11-24', 'ACTIVO'),
+	(5, 'ERNESTO', 'HUAMAN', 'MIO', '43564125', 'DNI', 'MASCULINO', '985482135', '2021-11-26', 'ACTIVO'),
+	(6, 'WILMER', 'CUNYARACHE', 'ROñA', '64543561', 'DNI', 'MASCULINO', '974356432', '2021-11-26', 'ACTIVO'),
+	(7, 'LUCILA', 'CRUZ', 'LLAGUENTO', '68742348', 'DNI', 'FEMENINO', '987542345', '2021-11-26', 'ACTIVO');
+/*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.producto
 CREATE TABLE IF NOT EXISTS `producto` (
@@ -130,7 +153,9 @@ CREATE TABLE IF NOT EXISTS `producto` (
   CONSTRAINT `producto_ibfk_2` FOREIGN KEY (`unidad_id`) REFERENCES `unidad_medida` (`unidad_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jhayli.producto: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+/*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.proveedor
 CREATE TABLE IF NOT EXISTS `proveedor` (
@@ -144,7 +169,9 @@ CREATE TABLE IF NOT EXISTS `proveedor` (
   CONSTRAINT `proveedor_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jhayli.proveedor: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `proveedor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `proveedor` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.rol
 CREATE TABLE IF NOT EXISTS `rol` (
@@ -155,7 +182,12 @@ CREATE TABLE IF NOT EXISTS `rol` (
   PRIMARY KEY (`rol_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jhayli.rol: ~2 rows (aproximadamente)
+/*!40000 ALTER TABLE `rol` DISABLE KEYS */;
+INSERT INTO `rol` (`rol_id`, `rol_nombre`, `rol_estatus`, `rol_feregistro`) VALUES
+	(1, 'ADMIN', 'ACTIVO', '2021-11-22'),
+	(3, 'VENDEDOR', 'ACTIVO', '2021-11-23');
+/*!40000 ALTER TABLE `rol` ENABLE KEYS */;
 
 -- Volcando estructura para procedimiento jhayli.SP_ACTUALIZAR_CONTRA_USUARIO
 DELIMITER //
@@ -545,7 +577,9 @@ CREATE TABLE IF NOT EXISTS `unidad_medida` (
   PRIMARY KEY (`unidad_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jhayli.unidad_medida: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `unidad_medida` DISABLE KEYS */;
+/*!40000 ALTER TABLE `unidad_medida` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
@@ -563,9 +597,13 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   KEY `persona_id` (`persona_id`),
   CONSTRAINT `FK_usuario_rol` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`rol_id`),
   CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jhayli.usuario: ~1 rows (aproximadamente)
+/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` (`usuario_id`, `usuario_nombre`, `usuario_password`, `usuario_email`, `usuario_intento`, `usuario_estatus`, `rol_id`, `usuario_imagen`, `persona_id`) VALUES
+	(1, 'admin', '$2y$10$CEQ98B6dCF2kBdPJsfZBMuHhOsDFsHPfGlYA3pX.kA9tFztA/BsXu', 'admin@gmail.com', 1, 'ACTIVO', 1, 'controller/usuario/img/user_defecto.png', NULL);
+/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.venta
 CREATE TABLE IF NOT EXISTS `venta` (
@@ -586,7 +624,9 @@ CREATE TABLE IF NOT EXISTS `venta` (
   CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jhayli.venta: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `venta` DISABLE KEYS */;
+/*!40000 ALTER TABLE `venta` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;

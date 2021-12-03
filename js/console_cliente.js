@@ -1,7 +1,8 @@
-var t_persona;
-function Listar_Persona(){
+var t_cliente;
 
-    t_persona = $("#tabla_persona").DataTable({
+function listar_cliente(){
+
+    t_cliente = $("#tabla_cliente").DataTable({
 		"ordering":false,   
         "pageLength":10,
         "destroy":true,
@@ -10,7 +11,7 @@ function Listar_Persona(){
     	"autoWidth": false,
         "ajax":{
             "method":"POST",
-            "url":"../controller/persona/controlador_persona_listar.php",
+            "url":"../controller/cliente/controlador_cliente_listar.php",
         },
         "columns":[
             {"defaultContent":""},
@@ -28,7 +29,7 @@ function Listar_Persona(){
                 }
             },
             {'data':"persona_telefono"},
-            {'data':"persona_estatus", 
+            {'data':"cliente_estatus", 
                 render: function(data,type,row){
                     
                     if (data === "ACTIVO") {
@@ -38,7 +39,16 @@ function Listar_Persona(){
                     }
                 }
             },
-            {"defaultContent":"<button class='editar btn btn-primary'><i class='fa fa-edit'></i></button>"}
+            {'data':"cliente_estatus", 
+                render: function(data,type,row){
+                    
+                    if (data === "ACTIVO") {
+                        return "<button class=' btn btn-warning' disabled><i class='fa fa-check'></i></button>&nbsp;<button class='desactivar btn btn-danger'><i class='fa fa-times-circle'></i></button>";
+                    }else{
+                        return "<button class='activar btn btn-warning'><i class='fa fa-check'></i></button>&nbsp;<button class=' btn btn-danger' disabled><i class='fa fa-times-circle'></i></button>";
+                    }
+                }
+            }
         ],
         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
             $($(nRow).find("td")[3]).css('text-align', 'center' );
@@ -47,34 +57,75 @@ function Listar_Persona(){
         "language":idioma_espanol,
         select: true
 	});
-	t_persona.on( 'draw.dt', function () {
-        var PageInfo = $('#tabla_persona').DataTable().page.info();
-        t_persona.column(0, { page: 'current' }).nodes().each( function (cell, i) {
+	t_cliente.on( 'draw.dt', function () {
+        var PageInfo = $('#tabla_cliente').DataTable().page.info();
+        t_cliente.column(0, { page: 'current' }).nodes().each( function (cell, i) {
             cell.innerHTML = i + 1 + PageInfo.start;
         } );
     } );
 }
 
-$('#tabla_persona').on('click', '.editar', function(){
-    var data = t_persona.row($(this).parents('tr')).data();
-    if(t_persona.row(this).child.isShown()){
-        var data = t_persona.row(this).data();
+$('#tabla_cliente').on('click', '.activar', function(){
+    var data = t_cliente.row($(this).parents('tr')).data();
+    if(t_cliente.row(this).child.isShown()){
+        var data = t_cliente.row(this).data();
     }
-    $("#modal_editar").modal({backdrop:'static',keyboard:false})
-    $("#modal_editar").modal('show');
-    document.getElementById('txtidpersona').value=data.persona_id;
-    document.getElementById('txtnombre_editar').value=data.persona_nombre;
-    document.getElementById('txtapepat_editar').value=data.persona_apepat;
-    document.getElementById('txtapemat_editar').value=data.persona_apemat;
-    document.getElementById('txtnro_editar_actual').value=data.persona_nrodocumento;
-    document.getElementById('txtnro_editar_nuevo').value=data.persona_nrodocumento;
-    document.getElementById('txttelefono_editar').value=data.persona_telefono;
-    $("#cbm_tdocumento_editar").val(data.persona_tipodocumento).trigger('change');
-    $("#cbm_sexo_editar").val(data.persona_sexo).trigger('change');
-    $("#cbm_estatus").val(data.persona_estatus).trigger('change');
-    document.getElementById('div_error_editar').style.display="none";
-    document.getElementById('div_error_editar').innerHTML="";
+
+    Swal.fire({
+        title: '¿Desea activar al cliente?',
+        text: "Está seguro de activar al cliente!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si'
+    }).then((result) => {
+        Modificar_Estatus_Cliente(data.cliente_id, 'ACTIVO');
+    })
 })
+
+$('#tabla_cliente').on('click', '.desactivar', function(){
+    var data = t_cliente.row($(this).parents('tr')).data();
+    if(t_cliente.row(this).child.isShown()){
+        var data = t_cliente.row(this).data();
+    }
+
+    Swal.fire({
+        title: '¿Desea desactivar al cliente?',
+        text: "Está seguro de desactivar al cliente!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si'
+    }).then((result) => {
+        Modificar_Estatus_Cliente(data.cliente_id, 'INACTIVO');
+    })
+})
+
+function Modificar_Estatus_Cliente(idcliente, estatus) {
+    $.ajax({
+        url:'../controller/cliente/controlador_actualizar_estatus_cliente.php',
+        type:'POST',
+        data:{
+            idcliente:idcliente,
+            estatus:estatus
+        }
+    }).done(function(resp){
+        if (resp>0) {
+            if (estatus==='ACTIVO') {
+                Swal.fire("Mensaje de confirmación","Cliente activado correctamente","success"); 
+            }else{
+                Swal.fire("Mensaje de confirmación","Cliente desactivado correctamente","success"); 
+            } 
+            t_cliente.ajax.reload();
+        }else{
+            Swal.fire("Mensaje de error","No se pudo actualizar los datos","error"); 
+        }
+
+
+    })
+}
 
 function AbrirModal(){
     $("#modal_registro").modal({backdrop:'static',keyboard:false})
@@ -83,7 +134,7 @@ function AbrirModal(){
     limpiarmodal();
 }
 
-function Registrar_Persona(){
+function Registrar_Cliente(){
     var nombre = document.getElementById('txtnombre').value;
     var apepat = document.getElementById('txtapepat').value;
     var apemat = document.getElementById('txtapemat').value;
@@ -100,7 +151,7 @@ function Registrar_Persona(){
     }
 
     $.ajax({
-        url:'../controller/persona/controlador_registro_persona.php',
+        url:'../controller/cliente/controlador_registro_cliente.php',
         type:'POST',
         data:{
             nombre:nombre,
@@ -120,7 +171,7 @@ function Registrar_Persona(){
                 document.getElementById('div_error').style.display="none";
                 document.getElementById('div_error').innerHTML="";
                 if(resp==1){
-                    t_persona.ajax.reload();
+                    t_cliente.ajax.reload();
                     limpiarmodal();
                     $("#modal_registro").modal('hide');
                     Swal.fire("Mensaje de confirmación","Datos guardados","success");   
@@ -131,66 +182,8 @@ function Registrar_Persona(){
                 Swal.fire("Mensaje de error","El registro no se pudo completar","error");
             }
         }
-
     })
 }
-
-function Editar_Persona(){
-    var id = document.getElementById('txtidpersona').value;
-    var nombre = document.getElementById('txtnombre_editar').value;
-    var apepat = document.getElementById('txtapepat_editar').value;
-    var apemat = document.getElementById('txtapemat_editar').value;
-    var ndocumentoactual = document.getElementById('txtnro_editar_actual').value;
-    var ndocumentonuevo = document.getElementById('txtnro_editar_nuevo').value;
-    var tdocumento = document.getElementById('cbm_tdocumento_editar').value;
-    var sexo = document.getElementById('cbm_sexo_editar').value;
-    var telefono = document.getElementById('txttelefono_editar').value;
-    var estatus = document.getElementById('cbm_estatus').value;
-    if(id.length==0 || nombre.length==0 || apepat.length==0 || apemat.length==0 || ndocumentoactual.length==0 || ndocumentonuevo.length==0 || tdocumento.length==0 || sexo.length==0 || telefono.length==0 ){
-        
-        mensajeerror(nombre, apepat, apemat,ndocumentonuevo, tdocumento, sexo, telefono,'div_error_editar');
-        return Swal.fire("Mensaje de advertencia","Llenar el campo vacío","warning");
-
-    }
-
-    $.ajax({
-        url:'../controller/persona/controlador_editar_persona.php',
-        type:'POST',
-        data:{
-            id:id,
-            nombre:nombre,
-            apepat:apepat,
-            apemat:apemat,
-            ndocumentoactual:ndocumentoactual,
-            ndocumentonuevo:ndocumentonuevo,
-            tdocumento:tdocumento,
-            sexo:sexo,
-            telefono:telefono,
-            estatus:estatus
-        }
-    }).done(function(resp){
-        if(isNaN(resp)){
-            document.getElementById('div_error_editar').style.display="block";
-            document.getElementById('div_error_editar').innerHTML="<strong> Revise los siguientes campos: </strong><br>"+resp;
-        }else{
-            if (resp>0){
-                document.getElementById('div_error_editar').style.display="none";
-                document.getElementById('div_error_editar').innerHTML="";
-                if(resp==1){
-                    t_persona.ajax.reload();
-                    $("#modal_editar").modal('hide');
-                    Swal.fire("Mensaje de confirmación","Datos Actualizados","success");   
-                }else{
-                    Swal.fire("Mensaje de advertencia","El Numero de documento ingresado ya se encuentra en la BD","warning");  
-                } 
-            }else{
-                Swal.fire("Mensaje de error","La actualizacion no se pudo completar","error");
-            }
-        }
-
-    })
-}
-
 
 function mensajeerror(nombre, apepat, apemat, ndocumento, tdocumento, sexo, telefono, id) {
     

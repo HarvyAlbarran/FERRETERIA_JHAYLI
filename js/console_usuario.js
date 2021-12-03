@@ -324,7 +324,7 @@ function Editar_Foto() {
             if (respuesta !=0) {
                 if(respuesta==1){
                     t_usuario.ajax.reload();
-                    $("#modal_registro").modal('hide');
+                    $("#modal_editar").modal('hide');
                     swal.fire("Mensaje de confirmación","Foto actualizada","success");   
                 }
             }
