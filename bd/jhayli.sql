@@ -42,10 +42,12 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   PRIMARY KEY (`cliente_id`),
   KEY `persona_id` (`persona_id`),
   CONSTRAINT `cliente_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- Volcando datos para la tabla jhayli.cliente: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` (`cliente_id`, `cliente_fregistro`, `cliente_estatus`, `persona_id`) VALUES
+	(1, '2021-12-01', 'ACTIVO', 2);
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.detalle_ingreso
@@ -97,15 +99,18 @@ CREATE TABLE IF NOT EXISTS `ingreso` (
   `ingreso_total` decimal(10,2) DEFAULT NULL,
   `ingreso_impuesto` decimal(10,2) DEFAULT NULL,
   `ingreso_estatus` enum('INGRESADO','PENDIENTE') COLLATE utf8_spanish_ci DEFAULT NULL,
+  `ingreso_porcentaje` decimal(2,2) DEFAULT NULL,
   PRIMARY KEY (`ingreso_id`),
   KEY `proveedor_id` (`proveedor_id`),
   KEY `usuario_id` (`usuario_id`),
   CONSTRAINT `ingreso_ibfk_1` FOREIGN KEY (`proveedor_id`) REFERENCES `proveedor` (`proveedor_id`),
   CONSTRAINT `ingreso_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla jhayli.ingreso: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla jhayli.ingreso: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `ingreso` DISABLE KEYS */;
+INSERT INTO `ingreso` (`ingreso_id`, `proveedor_id`, `usuario_id`, `ingreso_tipcomprobante`, `ingreso_seriecomprobante`, `ingreso_numcomprobante`, `ingreso_fecha`, `ingreso_total`, `ingreso_impuesto`, `ingreso_estatus`, `ingreso_porcentaje`) VALUES
+	(1, 2, 1, 'Factura', 'FAC', '001', '2021-12-01', 100.00, 15.00, 'INGRESADO', NULL);
 /*!40000 ALTER TABLE `ingreso` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.persona
@@ -121,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `persona` (
   `persona_fregistro` date DEFAULT NULL,
   `persona_estatus` enum('ACTIVO','INACTIVO') COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`persona_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- Volcando datos para la tabla jhayli.persona: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
@@ -132,7 +137,8 @@ INSERT INTO `persona` (`persona_id`, `persona_nombre`, `persona_apepat`, `person
 	(4, 'SEGUNDO', 'ASENJO', 'SAAVEDRA', '78456632', 'DNI', 'MASCULINO', '982158232', '2021-11-24', 'ACTIVO'),
 	(5, 'ERNESTO', 'HUAMAN', 'MIO', '43564125', 'DNI', 'MASCULINO', '985482135', '2021-11-26', 'ACTIVO'),
 	(6, 'WILMER', 'CUNYARACHE', 'ROñA', '64543561', 'DNI', 'MASCULINO', '974356432', '2021-11-26', 'ACTIVO'),
-	(7, 'LUCILA', 'CRUZ', 'LLAGUENTO', '68742348', 'DNI', 'FEMENINO', '987542345', '2021-11-26', 'ACTIVO');
+	(7, 'LUCILA', 'CRUZ', 'LLAGUENTO', '68742348', 'DNI', 'FEMENINO', '987542345', '2021-11-26', 'ACTIVO'),
+	(8, 'FERRETERIA DIAZ', 'PEREZ', 'VASQUEZ', '78943215825', 'RUC', 'FEMENINO', '984214511', '2021-12-02', 'ACTIVO');
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.producto
@@ -151,10 +157,14 @@ CREATE TABLE IF NOT EXISTS `producto` (
   KEY `unidad_id` (`unidad_id`),
   CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`categoria_id`),
   CONSTRAINT `producto_ibfk_2` FOREIGN KEY (`unidad_id`) REFERENCES `unidad_medida` (`unidad_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla jhayli.producto: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla jhayli.producto: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+INSERT INTO `producto` (`producto_id`, `producto_nombre`, `producto_presentacion`, `producto_stock`, `categoria_id`, `unidad_id`, `producto_foto`, `producto_precioventa`, `producto_estatus`) VALUES
+	(1, 'Martillo', 'Andino', 10.00, 1, 5, 'controller/producto/img/producto_default.png', 10.00, 'ACTIVO'),
+	(2, 'CEMENTO', 'PACASMAYO ROJO', 0.00, 1, 5, 'controller/producto/img/producto_default.png', 31.50, 'ACTIVO'),
+	(3, 'CEMENTO AZUL', 'PACASMAYO ', 0.00, 1, 1, 'controller/producto/img/PRO112202112943.png', 32.50, 'ACTIVO');
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.proveedor
@@ -164,13 +174,16 @@ CREATE TABLE IF NOT EXISTS `proveedor` (
   `proveedor_contacto` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `proveedor_estatus` enum('ACTIVO','INACTIVO') COLLATE utf8_spanish_ci DEFAULT NULL,
   `persona_id` int(11) DEFAULT NULL,
+  `proveedor_razonsocial` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`proveedor_id`),
   KEY `persona_id` (`persona_id`),
   CONSTRAINT `proveedor_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla jhayli.proveedor: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla jhayli.proveedor: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `proveedor` DISABLE KEYS */;
+INSERT INTO `proveedor` (`proveedor_id`, `proveedor_numcontacto`, `proveedor_contacto`, `proveedor_estatus`, `persona_id`, `proveedor_razonsocial`) VALUES
+	(2, '958514332', 'FERRETERIA DIAZ', 'ACTIVO', 8, 'AV. CHICLAYO Y CORNEJO');
 /*!40000 ALTER TABLE `proveedor` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.rol
@@ -306,6 +319,48 @@ END IF;
 END//
 DELIMITER ;
 
+-- Volcando estructura para procedimiento jhayli.SP_EDITAR_PRODUCTO
+DELIMITER //
+CREATE PROCEDURE `SP_EDITAR_PRODUCTO`(IN IDPRODUCTO INT, IN PRODUCTO VARCHAR(255),
+IN PRESENTACION VARCHAR(255), IN CATEGORIA INT, IN UNIDAD INT,
+IN PRECIO DECIMAL(10,2), IN ESTATUS VARCHAR(10))
+BEGIN
+DECLARE CANTIDAD INT;
+DECLARE PRODUCTOACTUAL VARCHAR(255);
+SET @PRODUCTOACTUAL:=(SELECT producto_nombre from producto WHERE producto_id=IDPRODUCTO);
+IF @PRODUCTOACTUAL = PRODUCTO THEN 
+	UPDATE producto set
+	producto_presentacion=PRESENTACION,
+	categoria_id=CATEGORIA,
+	unidad_id=UNIDAD,
+	producto_precioventa=PRECIO,
+	producto_estatus=ESTATUS
+	WHERE producto_id=IDPRODUCTO;
+	SELECT 1;
+	
+ELSE
+	SET @CANTIDAD:=(SELECT COUNT(*) producto_nombre from producto WHERE producto_nombre=PRODUCTO);
+	
+	IF @CANTIDAD = 0 THEN
+		UPDATE producto set
+		producto_nombre=PRODUCTO,
+		producto_presentacion=PRESENTACION,
+		categoria_id=CATEGORIA,
+		unidad_id=UNIDAD,
+		producto_precioventa=PRECIO,
+		producto_estatus=ESTATUS
+		WHERE producto_id=IDPRODUCTO;
+		SELECT 1;
+	
+	ELSE
+	
+	  SELECT 2;
+	
+	END IF;
+END IF;
+END//
+DELIMITER ;
+
 -- Volcando estructura para procedimiento jhayli.SP_EDITAR_ROL
 DELIMITER //
 CREATE PROCEDURE `SP_EDITAR_ROL`(IN ID INT, IN ROLACTUAL VARCHAR(15),IN ROLNUEVO VARCHAR(15),IN ESTATUS VARCHAR(10))
@@ -331,6 +386,34 @@ END IF;
 END//
 DELIMITER ;
 
+-- Volcando estructura para procedimiento jhayli.SP_EDITAR_UNIDADMEDIDA
+DELIMITER //
+CREATE PROCEDURE `SP_EDITAR_UNIDADMEDIDA`(IN ID INT, IN UNIDADACTUAL VARCHAR(100),
+IN UNIDADNUEVA VARCHAR(100), IN ABREVIATURAEDITAR VARCHAR(6), IN ESTATUS VARCHAR(10))
+BEGIN
+DECLARE CANTIDAD INT;
+IF UNIDADACTUAL = UNIDADNUEVA THEN
+UPDATE unidad_medida set
+unidad_abreviatura=ABREVIATURAEDITAR,
+unidad_estatus=ESTATUS
+where unidad_id=ID;
+SELECT 1;
+ELSE
+SET @CANTIDAD:=(SELECT COUNT(*) FROM unidad_medida where unidad_nombre=UNIDADNUEVA);
+IF @CANTIDAD = 0 THEN 
+UPDATE unidad_medida set
+unidad_nombre=UNIDADNUEVA,
+unidad_abreviatura=ABREVIATURAEDITAR,
+unidad_estatus=ESTATUS
+where unidad_id=ID;
+SELECT 1;
+ELSE
+SELECT 2;
+END IF;
+END IF;
+END//
+DELIMITER ;
+
 -- Volcando estructura para procedimiento jhayli.SP_LISTAR_CATEGORIA
 DELIMITER //
 CREATE PROCEDURE `SP_LISTAR_CATEGORIA`()
@@ -341,6 +424,34 @@ SELECT
 	categoria.categoria_estatus
 FROM
 	categoria//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_LISTAR_CLIENTE
+DELIMITER //
+CREATE PROCEDURE `SP_LISTAR_CLIENTE`()
+SELECT
+	CONCAT(' ', persona.persona_nombre, persona.persona_apepat, persona.persona_apemat) AS persona, 
+	persona.persona_nrodocumento, 
+	persona.persona_tipodocumento, 
+	persona.persona_sexo, 
+	persona.persona_telefono, 
+	cliente.cliente_fregistro, 
+	cliente.cliente_estatus, 
+	persona.persona_id, 
+	cliente.cliente_id
+FROM
+	cliente
+	INNER JOIN
+	persona
+	ON 
+		cliente.persona_id = persona.persona_id//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_LISTAR_COMBO_CATEGORIA
+DELIMITER //
+CREATE PROCEDURE `SP_LISTAR_COMBO_CATEGORIA`()
+SELECT categoria_id, categoria_nombre 
+FROM categoria//
 DELIMITER ;
 
 -- Volcando estructura para procedimiento jhayli.SP_LISTAR_COMBO_PERSONA
@@ -354,10 +465,64 @@ FROM
 	WHERE persona_estatus = 'ACTIVO'//
 DELIMITER ;
 
+-- Volcando estructura para procedimiento jhayli.SP_LISTAR_COMBO_PRODUCTO
+DELIMITER //
+CREATE PROCEDURE `SP_LISTAR_COMBO_PRODUCTO`()
+SELECT producto_id, producto_nombre FROM producto 
+where producto_estatus='ACTIVO'//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_LISTAR_COMBO_PROVEEDOR
+DELIMITER //
+CREATE PROCEDURE `SP_LISTAR_COMBO_PROVEEDOR`()
+SELECT proveedor_id, proveedor_contacto FROM proveedor 
+where proveedor_estatus='ACTIVO'//
+DELIMITER ;
+
 -- Volcando estructura para procedimiento jhayli.SP_LISTAR_COMBO_ROL
 DELIMITER //
 CREATE PROCEDURE `SP_LISTAR_COMBO_ROL`()
 SELECT rol_id, rol_nombre from rol where rol_estatus= 'ACTIVO'//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_LISTAR_COMBO_UNIDAD
+DELIMITER //
+CREATE PROCEDURE `SP_LISTAR_COMBO_UNIDAD`()
+SELECT unidad_id, unidad_nombre 
+FROM unidad_medida//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_LISTAR_INGRESO
+DELIMITER //
+CREATE PROCEDURE `SP_LISTAR_INGRESO`(IN INICIO DATE, IN FIN DATE)
+SELECT
+ingreso.ingreso_id,
+ingreso.proveedor_id,
+ingreso.usuario_id,
+ingreso.ingreso_tipcomprobante,
+ingreso.ingreso_seriecomprobante,
+ingreso.ingreso_numcomprobante,
+ingreso.ingreso_fecha,
+ingreso.ingreso_total,
+ingreso.ingreso_impuesto,
+ingreso.ingreso_estatus,
+usuario.usuario_nombre,
+CONCAT_WS(' ',persona.persona_nombre,persona.persona_apepat,persona.persona_apemat) as proveedor
+FROM
+ingreso
+INNER JOIN
+usuario
+ON
+ingreso.usuario_id = usuario.usuario_id
+INNER JOIN 
+proveedor 
+ON
+ingreso.proveedor_id = proveedor.proveedor_id
+INNER JOIN 
+persona 
+ON
+proveedor.persona_id = persona.persona_id
+where ingreso.ingreso_fecha BETWEEN INICIO AND FIN//
 DELIMITER ;
 
 -- Volcando estructura para procedimiento jhayli.SP_LISTAR_PERSONA
@@ -378,6 +543,56 @@ FROM
 	persona//
 DELIMITER ;
 
+-- Volcando estructura para procedimiento jhayli.SP_LISTAR_PRODUCTO
+DELIMITER //
+CREATE PROCEDURE `SP_LISTAR_PRODUCTO`()
+SELECT
+	producto.producto_id, 
+	producto.producto_nombre, 
+	producto.producto_presentacion, 
+	producto.producto_stock, 
+	producto.categoria_id, 
+	producto.unidad_id, 
+	producto.producto_foto, 
+	producto.producto_precioventa, 
+	producto.producto_estatus, 
+	unidad_medida.unidad_nombre, 
+	categoria.categoria_nombre
+FROM
+	producto
+	INNER JOIN
+	unidad_medida
+	ON 
+		producto.unidad_id = unidad_medida.unidad_id
+	INNER JOIN
+	categoria
+	ON 
+		producto.categoria_id = categoria.categoria_id//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_LISTAR_PROVEEDOR
+DELIMITER //
+CREATE PROCEDURE `SP_LISTAR_PROVEEDOR`()
+SELECT
+	proveedor.proveedor_numcontacto, 
+	proveedor.proveedor_contacto, 
+	CONCAT_WS(' ', persona.persona_nombre, persona.persona_apepat, persona.persona_apemat) AS persona, 
+	persona.persona_nrodocumento, 
+	persona.persona_tipodocumento, 
+	persona.persona_sexo, 
+	persona.persona_telefono, 
+	proveedor.persona_id, 
+	proveedor.proveedor_id, 
+	proveedor.proveedor_estatus,
+	proveedor.proveedor_razonsocial
+FROM
+	proveedor
+	INNER JOIN
+	persona
+	ON 
+		proveedor.persona_id = persona.persona_id//
+DELIMITER ;
+
 -- Volcando estructura para procedimiento jhayli.SP_LISTAR_ROL
 DELIMITER //
 CREATE PROCEDURE `SP_LISTAR_ROL`()
@@ -388,6 +603,19 @@ SELECT
 	rol.rol_feregistro
 FROM
 	rol//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_LISTAR_UNIDADMEDIDA
+DELIMITER //
+CREATE PROCEDURE `SP_LISTAR_UNIDADMEDIDA`()
+SELECT
+unidad_medida.unidad_id,
+unidad_medida.unidad_nombre,
+unidad_medida.unidad_fregistro,
+unidad_medida.unidad_estatus,
+unidad_medida.unidad_abreviatura
+FROM
+unidad_medida//
 DELIMITER ;
 
 -- Volcando estructura para procedimiento jhayli.SP_LISTAR_USUARIO
@@ -413,6 +641,43 @@ FROM
 	persona
 	ON 
 		usuario.persona_id = persona.persona_id//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_MODIFICAR_ESTATUS_CLIENTE
+DELIMITER //
+CREATE PROCEDURE `SP_MODIFICAR_ESTATUS_CLIENTE`(IN IDCLIENTE INT, IN ESTATUS VARCHAR(10))
+UPDATE cliente set
+cliente_estatus=ESTATUS
+WHERE cliente_id=IDCLIENTE//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_MODIFICAR_ESTATUS_PROVEEDOR
+DELIMITER //
+CREATE PROCEDURE `SP_MODIFICAR_ESTATUS_PROVEEDOR`(IN IDPROVEEDOR INT, IN ESTATUS VARCHAR(10))
+UPDATE proveedor set
+proveedor_estatus=ESTATUS
+WHERE proveedor_id=IDPROVEEDOR//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_MODIFICAR_PRODUCTO_FOTO
+DELIMITER //
+CREATE PROCEDURE `SP_MODIFICAR_PRODUCTO_FOTO`(IN ID INT, IN FOTO VARCHAR(250))
+BEGIN
+UPDATE producto set
+producto_foto=FOTO
+where producto_id=ID;
+SELECT 1;
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_MODIFICAR_PROVEEDOR
+DELIMITER //
+CREATE PROCEDURE `SP_MODIFICAR_PROVEEDOR`(IN IDPROVEEDOR INT, IN RAZONSOCIAL VARCHAR(255), IN NOMCONTACTO VARCHAR(255), IN NUMCONTACTO VARCHAR(12) )
+UPDATE proveedor set
+proveedor_razonsocial=RAZONSOCIAL,
+proveedor_contacto=NOMCONTACTO,
+proveedor_numcontacto=NUMCONTACTO
+WHERE proveedor_id=IDPROVEEDOR//
 DELIMITER ;
 
 -- Volcando estructura para procedimiento jhayli.SP_MODIFICAR_USUARIO
@@ -479,6 +744,43 @@ END IF;
 END//
 DELIMITER ;
 
+-- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_CLIENTE
+DELIMITER //
+CREATE PROCEDURE `SP_REGISTRAR_CLIENTE`(IN NOMBRE VARCHAR(100), IN APEPAT VARCHAR(50), IN APEMAT VARCHAR(50), IN NUMERODOCUMENTO VARCHAR(11), IN TIPODOCUMENTO VARCHAR(12), IN SEXO VARCHAR(10), IN TELEFONO VARCHAR(12))
+BEGIN
+DECLARE CANTIDAD INT;
+SET @CANTIDAD:=(SELECT COUNT(*) FROM persona where persona_nrodocumento=NUMERODOCUMENTO);
+IF @CANTIDAD = 0 THEN
+INSERT INTO persona(persona_nombre, persona_apepat, persona_apemat, persona_nrodocumento, persona_tipodocumento, persona_sexo, persona_telefono, persona_fregistro,persona_estatus)values (NOMBRE, APEPAT, APEMAT, NUMERODOCUMENTO, TIPODOCUMENTO, SEXO, TELEFONO, CURDATE(), 'ACTIVO');
+INSERT INTO cliente(cliente_fregistro, cliente_estatus, persona_id) VALUES (CURDATE(), 'ACTIVO', LAST_INSERT_ID());
+SELECT 1;
+ELSE
+SELECT 2;
+END IF;
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_INGRESO
+DELIMITER //
+CREATE PROCEDURE `SP_REGISTRAR_INGRESO`(IN IDPROVEEDOR INT, IN IDUSUARIO INT,
+IN TIPO VARCHAR(50), IN SERIE VARCHAR(20), IN NUM VARCHAR(20), IN TOTAL DECIMAL(10,2), IN IMPUESTO DECIMAL(10,2),
+IN PORCENTAJE DECIMAL(2,2))
+BEGIN 
+INSERT INTO ingreso(proveedor_id,usuario_id,ingreso_tipocomprobante,ingreso_seriecomprobante,
+ingreso_numcomprobante, ingreso_fecha, ingreso_total, ingreso_impuesto, ingreso_estatus, ingreso_porcentaje)
+values(IDPROVEEDOR,IDUSUARIO,TIPO,SERIE,NUM,CURDATE(),TOTAL,IMPUESTO,'PENDIENTE',PORCENTAJE);
+SELECT LAST_INSERT_ID();
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_INGRESO_DETALLE
+DELIMITER //
+CREATE PROCEDURE `SP_REGISTRAR_INGRESO_DETALLE`(IN ID INT, IN PRODUCTO INT, 
+IN CANTIDAD DECIMAL(10,2), IN PRECIO DECIMAL(10,2))
+INSERT INTO detalle_ingreso(ingreso_id, producto_id, detalleingreso_cantidad,
+detalleingreso_precio)VALUES(ID,PRODUCTO,CANTIDAD,PRECIO)//
+DELIMITER ;
+
 -- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_PERSONA
 DELIMITER //
 CREATE PROCEDURE `SP_REGISTRAR_PERSONA`(IN NOMBRE VARCHAR(100), IN APEPAT VARCHAR(50), IN APEMAT VARCHAR(50), IN NUMERODOCUMENTO VARCHAR(11), IN TIPODOCUMENTO VARCHAR(12), IN SEXO VARCHAR(10), IN TELEFONO VARCHAR(12))
@@ -487,6 +789,42 @@ DECLARE CANTIDAD INT;
 SET @CANTIDAD:=(SELECT COUNT(*) FROM persona where persona_nrodocumento=NUMERODOCUMENTO);
 IF @CANTIDAD = 0 THEN
 INSERT INTO persona(persona_nombre, persona_apepat, persona_apemat, persona_nrodocumento, persona_tipodocumento, persona_sexo, persona_telefono, persona_fregistro,persona_estatus)values (NOMBRE, APEPAT, APEMAT, NUMERODOCUMENTO, TIPODOCUMENTO, SEXO, TELEFONO, CURDATE(), 'ACTIVO');
+SELECT 1;
+ELSE
+SELECT 2;
+END IF;
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_PRODUCTO
+DELIMITER //
+CREATE PROCEDURE `SP_REGISTRAR_PRODUCTO`(IN PRODUCTO VARCHAR(255),
+IN PRESENTACION VARCHAR(255), IN CATEGORIA INT, IN UNIDAD INT,
+IN PRECIO DECIMAL(10,2), IN RUTA VARCHAR(255))
+BEGIN
+DECLARE CANTIDAD INT;
+SET @CANTIDAD:=(SELECT COUNT(*) FROM producto WHERE 
+producto_nombre=PRODUCTO);
+IF @CANTIDAD=0 THEN 
+INSERT INTO producto(producto_nombre, producto_presentacion, producto_stock,
+categoria_id, unidad_id, producto_foto,producto_precioventa, producto_estatus)
+VALUES (PRODUCTO,PRESENTACION,0,CATEGORIA,UNIDAD,RUTA, PRECIO, 'ACTIVO');
+SELECT 1;
+ELSE
+SELECT 2;
+END IF;
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_PROVEEDOR
+DELIMITER //
+CREATE PROCEDURE `SP_REGISTRAR_PROVEEDOR`(IN NOMBRE VARCHAR(100), IN APEPAT VARCHAR(50), IN APEMAT VARCHAR(50), IN NUMERODOCUMENTO VARCHAR(11), IN TIPODOCUMENTO VARCHAR(12), IN SEXO VARCHAR(10), IN TELEFONO VARCHAR(12), IN RAZONSOCIAL VARCHAR(255), IN NOMCONTACTO VARCHAR(255), IN NUMCONTACTO VARCHAR(12) )
+BEGIN
+DECLARE CANTIDAD INT;
+SET @CANTIDAD:=(SELECT COUNT(*) FROM persona where persona_nrodocumento=NUMERODOCUMENTO AND persona_tipodocumento='RUC');
+IF @CANTIDAD = 0 THEN
+INSERT INTO persona(persona_nombre, persona_apepat, persona_apemat, persona_nrodocumento, persona_tipodocumento, persona_sexo, persona_telefono, persona_fregistro,persona_estatus)values (NOMBRE, APEPAT, APEMAT, NUMERODOCUMENTO, TIPODOCUMENTO, SEXO, TELEFONO, CURDATE(), 'ACTIVO');
+INSERT INTO proveedor(proveedor_numcontacto, proveedor_contacto, proveedor_estatus, persona_id, proveedor_razonsocial) VALUES (NUMCONTACTO, NOMCONTACTO, 'ACTIVO', LAST_INSERT_ID(), RAZONSOCIAL);
 SELECT 1;
 ELSE
 SELECT 2;
@@ -510,6 +848,24 @@ ELSE
 
 SELECT 2;
 
+END IF;
+END//
+DELIMITER ;
+
+-- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_UNIDADMEDIDA
+DELIMITER //
+CREATE PROCEDURE `SP_REGISTRAR_UNIDADMEDIDA`(IN UNIDAD VARCHAR(100), IN ABREVIATURA CHAR(6))
+BEGIN
+DECLARE CANTIDAD INT;
+SET @CANTIDAD:=(SELECT COUNT(*) FROM unidad_medida
+where unidad_nombre=UNIDAD);
+IF @CANTIDAD = 0 THEN 
+INSERT INTO unidad_medida(unidad_nombre, unidad_abreviatura,
+unidad_fregistro, unidad_estatus) values (UNIDAD, ABREVIATURA, CURDATE(),
+'ACTIVO');
+SELECT 1;
+ELSE
+SELECT 2;
 END IF;
 END//
 DELIMITER ;
@@ -574,11 +930,19 @@ CREATE TABLE IF NOT EXISTS `unidad_medida` (
   `unidad_id` int(11) NOT NULL AUTO_INCREMENT,
   `unidad_nombre` varchar(100) COLLATE utf8_spanish_ci DEFAULT NULL,
   `unidad_estatus` enum('ACTIVO','INACTIVO') COLLATE utf8_spanish_ci DEFAULT NULL,
+  `unidad_abreviatura` char(6) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `unidad_fregistro` date DEFAULT NULL,
   PRIMARY KEY (`unidad_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla jhayli.unidad_medida: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla jhayli.unidad_medida: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `unidad_medida` DISABLE KEYS */;
+INSERT INTO `unidad_medida` (`unidad_id`, `unidad_nombre`, `unidad_estatus`, `unidad_abreviatura`, `unidad_fregistro`) VALUES
+	(1, 'Kilogramo', 'ACTIVO', 'kg', '2021-11-29'),
+	(2, 'Litro', 'ACTIVO', 'L', '2021-11-29'),
+	(3, 'Metro', 'ACTIVO', 'm', '2021-11-29'),
+	(4, 'Centimetro', 'ACTIVO', 'cm', '2021-11-29'),
+	(5, 'Entero', 'ACTIVO', 'E', '2021-11-29');
 /*!40000 ALTER TABLE `unidad_medida` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jhayli.usuario
