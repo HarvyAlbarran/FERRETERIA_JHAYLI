@@ -352,6 +352,257 @@ function TraerDatosUsuario(){
     })
 }
 
+function TraerWidgets(){
+    var inicio = document.getElementById('txt_finicio_d').value;
+    var fin = document.getElementById('txt_ffin_d').value;
+    if(inicio>fin){
+        return Swal.fire("Mensaje de advertencia", "La fecha de inicio debe ser menor a la fecha fin", "warning");
+    }
+    TraerGraficoVentas();
+    TraerGraficoIngreso();
+    $.ajax({
+        url:'../controller/usuario/controlador_traerdatos_widget.php',
+        type:'POST',
+        data:{
+            inicio:inicio,
+            fin:fin
+        }
+    }).done(function(resp){
+        var data = JSON.parse(resp);
+        var cadena='';
+        if (data.length>0){
+            cadena+='<div class="col-lg-3 col-md-6">'+
+                '<div class="ibox bg-success color-white widget-stat">'+
+                    '<div class="ibox-body">'+
+                        '<h2 class="m-b-5 font-strong">'+data[0][0]+'</h2>'+
+                        '<div class="m-b-5">TOTAL DE VENTAS</div><i class="ti-shopping-cart widget-stat-icon"></i>'+
+                        '<div></div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="col-lg-3 col-md-6">'+
+                '<div class="ibox bg-info color-white widget-stat">'+
+                    '<div class="ibox-body">'+
+                        '<h2 class="m-b-5 font-strong">'+data[0][1]+'</h2>'+
+                        '<div class="m-b-5">TOTAL INGRESO</div><i class="ti-bar-chart widget-stat-icon"></i>'+
+                        '<div></div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="col-lg-3 col-md-6">'+
+                '<div class="ibox bg-warning color-white widget-stat">'+
+                    '<div class="ibox-body">'+
+                        '<h2 class="m-b-5 font-strong">'+data[0][2]+'</h2>'+
+                        '<div class="m-b-5">VENTAS REALIZADAS</div><i class="ti-bar-chart widget-stat-icon"></i>'+
+                        '<div></div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="col-lg-3 col-md-6">'+
+                '<div class="ibox bg-danger color-white widget-stat">'+
+                    '<div class="ibox-body">'+
+                        '<h2 class="m-b-5 font-strong">'+data[0][3]+'</h2>'+
+                        '<div class="m-b-5">INGRESOS REALIZADOS</div><i class="ti-bar-chart widget-stat-icon"></i>'+
+                        '<div></div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>';
+            document.getElementById('div_widget').innerHTML=cadena;
+        }else{
+            cadena+='<div class="col-lg-3 col-md-6">'+
+                '<div class="ibox bg-success color-white widget-stat">'+
+                    '<div class="ibox-body">'+
+                        '<h2 class="m-b-5 font-strong">0</h2>'+
+                        '<div class="m-b-5">TOTAL DE VENTAS</div><i class="ti-shopping-cart widget-stat-icon"></i>'+
+                        '<div></div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="col-lg-3 col-md-6">'+
+                '<div class="ibox bg-info color-white widget-stat">'+
+                    '<div class="ibox-body">'+
+                        '<h2 class="m-b-5 font-strong">0</h2>'+
+                        '<div class="m-b-5">TOTAL INGRESO</div><i class="ti-bar-chart widget-stat-icon"></i>'+
+                        '<div></div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="col-lg-3 col-md-6">'+
+                '<div class="ibox bg-warning color-white widget-stat">'+
+                    '<div class="ibox-body">'+
+                        '<h2 class="m-b-5 font-strong">0</h2>'+
+                        '<div class="m-b-5">VENTAS REALIZADAS</div><i class="ti-bar-chart widget-stat-icon"></i>'+
+                        '<div></div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="col-lg-3 col-md-6">'+
+                '<div class="ibox bg-danger color-white widget-stat">'+
+                    '<div class="ibox-body">'+
+                        '<h2 class="m-b-5 font-strong">0</h2>'+
+                        '<div class="m-b-5">INGRESOS REALIZADOS</div><i class="ti-bar-chart widget-stat-icon"></i>'+
+                        '<div></div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>';
+            document.getElementById('div_widget').innerHTML=cadena;
+        }
+    })
+}
+
+var chartventa;
+function TraerGraficoVentas(){
+    var inicio = document.getElementById('txt_finicio_d').value;
+    var fin = document.getElementById('txt_ffin_d').value;
+    $.ajax({
+        url:'../controller/usuario/controlador_traergraficoventa_widget.php',
+        type:'POST',
+        data:{
+            inicio:inicio,
+            fin:fin
+        }
+    }).done(function(resp){
+        var data = JSON.parse(resp);
+        var cadena='';
+        if (data.length>0){
+            var producto = new Array();
+            var cantidad = new Array();
+            var color = new Array();
+            for (let index = 0; index < data.length; index++) {
+                producto.push(data[index][0]);
+                cantidad.push(data[index][1]);
+                color.push(colorRGB());
+            }
+            var ctx = document.getElementById('myChartVentaTop5').getContext('2d');
+            if(chartventa){
+                chartventa.reset();
+                chartventa.destroy();
+            }
+            chartventa = new Chart(ctx,{
+                type:'bar',
+                data: {
+                    labels:producto,
+                    datasets: [{
+                        label: 'TOP 5 PRODUCTOS VENDIDOS',
+                        backgroundColor: color,
+                        borderColor: color,
+                        data: cantidad
+                    }]
+                },
+                option:{
+                    scales:{
+                        xAxes:[{
+                            stacked: true
+                        }],
+                        yAxes:[{
+                            stacked:true
+                        }]
+                    }
+                }
+            });
+        }else{
+            var ctx = document.getElementById('myChartVentaTop5').getContext('2d');
+            if(chartventa){
+                chartventa.reset();
+                chartventa.destroy();
+            }
+            chartventa = new Chart(ctx,{
+                type:'bar',
+                data: {
+                    labels:['NO EXISTEN PRODUCTOS'],
+                    datasets: [{
+                        label: 'TOP 5 PRODUCTOS VENDIDOS',
+                        data: [0]
+                    }]
+                },
+                option:{}
+            });
+        }
+    })
+    
+}
+
+var chartingreso;
+function TraerGraficoIngreso(){
+    var inicio = document.getElementById('txt_finicio_d').value;
+    var fin = document.getElementById('txt_ffin_d').value;
+    $.ajax({
+        url:'../controller/usuario/controlador_traergraficoingreso_widget.php',
+        type:'POST',
+        data:{
+            inicio:inicio,
+            fin:fin
+        }
+    }).done(function(resp){
+        var data = JSON.parse(resp);
+        var cadena='';
+        if (data.length>0){
+            var producto = new Array();
+            var cantidad = new Array();
+            var color = new Array();
+            for (let index = 0; index < data.length; index++) {
+                producto.push(data[index][0]);
+                cantidad.push(data[index][1]);
+                color.push(colorRGB());
+            }
+            var ctx = document.getElementById('myChartIngresoTop5').getContext('2d');
+            if(chartingreso){
+                chartingreso.reset();
+                chartingreso.destroy();
+            }
+            chartingreso = new Chart(ctx,{
+                type:'bar',
+                data: {
+                    labels:producto,
+                    datasets: [{
+                        label: 'TOP 5 PRODUCTOS INGRESADOS',
+                        backgroundColor: color,
+                        borderColor: color,
+                        data: cantidad
+                    }]
+                },
+                option:{
+                    scales:{
+                        xAxes:[{
+                            stacked: true
+                        }],
+                        yAxes:[{
+                            stacked:true
+                        }]
+                    }
+                }
+            });
+        }else{
+            var ctx = document.getElementById('myChartIngresoTop5').getContext('2d');
+            if(chartingreso){
+                chartingreso.reset();
+                chartingreso.destroy();
+            }
+            chartingreso = new Chart(ctx,{
+                type:'bar',
+                data: {
+                    labels:['NO EXISTEN PRODUCTOS'],
+                    datasets: [{
+                        label: 'TOP 5 PRODUCTOS INGRESADOS',
+                        data: [0]
+                    }]
+                },
+                option:{}
+            });
+        }
+    })
+    
+}
+
+function generarNumero(numero){
+    return (Math.random()*numero).toFixed(0);
+}
+
+function colorRGB(){
+    var coolor = "("+generarNumero(255)+","+generarNumero(255)+","+generarNumero(255)+")";
+    return "rgb" + coolor;
+}
+
 function TraerDatosPerfil(){
     var id = document.getElementById('txt_codigo_principal').value;
     $.ajax({

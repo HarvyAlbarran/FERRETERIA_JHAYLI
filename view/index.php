@@ -36,37 +36,29 @@
     <div class="page-wrapper">
         <!-- START HEADER-->
         <header class="header">
-            <div class="page-brand">
+            <div class="page-brand" style="background: #323b44";>
                 <a class="link" href="index.php">
-                    <span class=" brand brand-tip">JHAYLI</span>
-                    <span class="brand-mini">JH</span>
+                    <center><img src="plantilla/assets/img/logo.png" / width="70%"></center>
+                    
                 </a>
             </div>
-            <div class="flexbox flex-1">
+            <div class="flexbox flex-1" style="background: linear-gradient(70deg, white , #323b44);">
                 <!-- START TOP-LEFT TOOLBAR-->
                 <ul class="nav navbar-toolbar">
                     <li>
                         <a class="nav-link sidebar-toggler js-sidebar-toggler"><i class="ti-menu"></i></a>
                     </li>
-                    <li>
-                        <form class="navbar-search" action="javascript:;">
-                            <div class="rel">
-                                <span class="search-icon"><i class="ti-search"></i></span>
-                                <input class="form-control" placeholder="Buscar...">
-                            </div>
-                        </form>
-                    </li>
+                
                 </ul>
                 <!-- END TOP-LEFT TOOLBAR-->
                 <!-- START TOP-RIGHT TOOLBAR-->
                 <ul class="nav navbar-toolbar">
                     <li class="dropdown dropdown-user">
                         <a class="nav-link dropdown-toggle link" style="color: white;" data-toggle="dropdown">
-                            <img src="plantilla/assets/img/admin-avatar.png" />
-                            <span></span>Administrador<i class="fa fa-angle-down m-l-5"></i></a>
+                            <br><img src="plantilla/assets/img/admin.png" width="100px"/></br>
+                            <span></span><div class="font-strong"><label for="" id="usu_sidebar"></div><i class="fa fa-angle-down m-l-5"></i></a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" onclick="cargar_contenido('contenido_principal','usuario/vista_profile.php')"><i class="fa fa-user"></i>Perfil</a>
-                            <a class="dropdown-item" href="profile.html"><i class="fa fa-cog"></i>Configuraciones</a>
                             <li class="dropdown-divider"></li>
                             <a class="dropdown-item" href="../controller/usuario/controlador_cerrar_session.php"><i class="fa fa-power-off"></i>Salir</a>
                         </ul>
@@ -77,22 +69,23 @@
         </header>
         <!-- END HEADER-->
         <!-- START SIDEBAR-->
-        <nav class="page-sidebar" id="sidebar">
-            <div id="sidebar-collapse">
+        <nav class="page-sidebar" id="sidebar" style="background: #323b44;">
+            <div id="sidebar-collapse" >
                 <div class="admin-block d-flex">
                     <div>
-                        <img src="plantilla/assets/img/admin-avatar.png" width="45px" />
+                        <img src="plantilla/assets/img/admin.png" width="60px" />
                     </div>
                     <div class="admin-info">
-                        <div class="font-strong"><label for="" id="usu_sidebar"></div><small id="rol_sidebar"></small></div>
+                        <div class="font-strong"><br></div><label id="rol_sidebar"></small></div>
                 </div>
-                <ul class="side-menu metismenu">
+                <ul class="side-menu metismenu" >
                     <li>
-                        <a class="active" onclick="cargar_contenido('contenido_principal','rol/vista_mantenimiento_rol.php')"><i class="sidebar-item-icon fa fa-th-large"></i>
+                        <a class="link" href="index.php"><i class="sidebar-item-icon fa fa-th-large"></i>
                             <span class="nav-label">Inicio</span>
                         </a>
                     </li>
-                    <li class="heading">PÁGINAS</li>
+                    <?php if ($_SESSION['S_ROL']=='1'){ ?>
+                    <li class="heading">MENÚ ADMINISTRADOR</li>
                     <li>
                         <a href="javascript:cargar_contenido('contenido_principal','rol/vista_mantenimiento_rol.php')"><i class="sidebar-item-icon ti-comment-alt"></i>
                             <span class="nav-label">Rol</span><i class="fa fa-angle-left arrow"></i></a>
@@ -129,6 +122,34 @@
                         <a href="javascript:cargar_contenido('contenido_principal','ingreso/vista_matenimiento_ingreso.php')"><i class="sidebar-item-icon fa fa-dropbox"></i>
                             <span class="nav-label">Ingresos</span><i class="fa fa-angle-left arrow"></i></a>
                     </li>
+                    <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','venta/vista_matenimiento_venta.php')"><i class="sidebar-item-icon fa fa-dropbox"></i>
+                            <span class="nav-label">Ventas</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>
+                    <?php } ?>
+                    <?php if ($_SESSION['S_ROL']=='4'){ ?>
+                    <li class="heading">MENÚ JEFE ALMACÉN</li>
+                    <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','proveedor/vista_mantenimiento_proveedor.php')"><i class="sidebar-item-icon ti-id-badge"></i>
+                            <span class="nav-label">Proveedor</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>
+                    <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','categoria/vista_mantenimiento_categoria.php')"><i class="sidebar-item-icon fa fa-cubes"></i>
+                            <span class="nav-label">Categoría</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>
+                    <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','unidadMedida/vista_mantenimiento_unidadMedida.php')"><i class="sidebar-item-icon fa fa-list-ol"></i>
+                            <span class="nav-label">Unidad de Medida</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>
+                    <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','producto/vista_matenimiento_producto.php')"><i class="sidebar-item-icon fa fa-dropbox"></i>
+                            <span class="nav-label">Productos</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>
+                    <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','ingreso/vista_matenimiento_ingreso.php')"><i class="sidebar-item-icon fa fa-dropbox"></i>
+                            <span class="nav-label">Ingresos</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>
+                    <?php } ?>
                 </ul>
             </div>
         </nav>
@@ -139,36 +160,29 @@
             <div class="page-content fade-in-up">
                 <div id="contenido_principal">
                     <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="ibox bg-success color-white widget-stat">
-                                <div class="ibox-body">
-                                    <h2 class="m-b-5 font-strong">20.00</h2>
-                                    <div class="m-b-5">TOTAL DE VENTAS</div><i class="ti-shopping-cart widget-stat-icon"></i>
-                                </div>
+                        <div class="col-5">
+                            <label for=""><b>Fecha Inicio</b></label>
+                            <input type="date" id="txt_finicio_d" class="form-control"><br>
+                        </div>  
+                        <div class="col-5">
+                            <label for=""><b>Fecha Fin</b></label>
+                            <input type="date" id="txt_ffin_d" class="form-control"><br>
+                        </div> 
+                        <div class="col-2">
+                            <label for="">&nbsp;</label><br>
+                            <button class="btn btn-success" style="width:100%" onclick="TraerWidgets()"><i class="fa fa-search"></i>Buscar</button><br>
+                        </div>
+                    </div>
+                    <div class="row" id="div_widget"></div>    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="ibox">
+                                <canvas id="myChartVentaTop5"></canvas>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="ibox bg-info color-white widget-stat">
-                                <div class="ibox-body">
-                                    <h2 class="m-b-5 font-strong">348.00</h2>
-                                    <div class="m-b-5">TOTAL INGRESO</div><i class="ti-bar-chart widget-stat-icon"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="ibox bg-warning color-white widget-stat">
-                                <div class="ibox-body">
-                                    <h2 class="m-b-5 font-strong">1</h2>
-                                    <div class="m-b-5">VENTAS REALIZADAS</div><i class="ti-bar-chart widget-stat-icon"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="ibox bg-danger color-white widget-stat">
-                                <div class="ibox-body">
-                                    <h2 class="m-b-5 font-strong">2</h2>
-                                    <div class="m-b-5">INGRESOS REALIZADOS</div><i class="ti-bar-chart widget-stat-icon"></i>
-                                </div>
+                        <div class="col-lg-6">
+                            <div class="ibox">
+                                <canvas id="myChartIngresoTop5"></canvas>
                             </div>
                         </div>
                     </div>
@@ -208,6 +222,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
     <script src="../js/console_usuario.js"></script>
+    <script src="../js/console_usuario.js?rev=<?php echo time();?>"></script>
     <!-- PAGE LEVEL SCRIPTS-->
     <script>
         TraerDatosUsuario();
@@ -220,10 +235,10 @@
 			rows: "%d fila seleccionada"
 			},
 			"sProcessing":     "Procesando...",
-			"sLengthMenu":     "Mostrar MENU registros",
+			"sLengthMenu":     "Mostrar _MENU_ registros",
 			"sZeroRecords":    "No se encontraron resultados",
 			"sEmptyTable":     "Ning&uacute;n dato disponible en esta tabla",
-			"sInfo":           "Registros del (_START_ al END_) total de _TOTAL registros",
+			"sInfo":           "Registros del (_START_ al _END_) total de _TOTAL_ registros",
 			"sInfoEmpty":      "Registros del (0 al 0) total de 0 registros",
 			"sInfoFiltered":   "(filtrado de un total de MAX registros)",
 			"sInfoPostFix":    "",
@@ -311,6 +326,23 @@
                 return false;
             }
         }
+        $(document).ready(function() { 
+            $('.js-example-basic-single').select2();
+            var f = new Date();
+            var anio = f.getFullYear();
+            var mes = f.getMonth()+1;
+            var d = f.getDate();
+            if(d<10){
+                d='0'+d;
+            }
+            if(mes<10){
+                mes='0'+mes;
+            }
+            document.getElementById('txt_finicio_d').value=anio+"-"+mes+"-"+d;
+            document.getElementById('txt_ffin_d').value=anio+"-"+mes+"-"+d;
+            TraerWidgets();
+        });
+        
     </script>
 </body>
 

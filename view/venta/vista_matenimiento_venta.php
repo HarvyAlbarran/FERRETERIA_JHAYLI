@@ -1,11 +1,11 @@
-<script src="../js/console_ingreso.js?rev=<?php echo time();?>"></script>
+<script src="../js/console_venta.js?rev=<?php echo time();?>"></script>
 <div class="row">
     <div class="col-md-12">
         <div class="ibox ibox-default">
             <div class="ibox-head">
-                <div class="ibox-title">MANTENIMIENTO DE INGRESOS</div>
+                <div class="ibox-title">MANTENIMIENTO VENTA</div>
                 <div class="ibox-tools">
-                    <button class="btn" style="background-color: #FF914D;" onclick="cargar_contenido('contenido_principal','ingreso/vista_ingreso_registro.php')">Registrar</button>
+                    <button class="btn" style="background-color: #FF914D;" onclick="cargar_contenido('contenido_principal','venta/vista_venta_registro.php')">Registrar</button>
                 </div>
             </div>
             <div class="ibox-body">
@@ -20,18 +20,18 @@
                     </div> 
                     <div class="col-2">
                         <label for="">&nbsp;</label><br>
-                        <button class="btn btn-success" style="width:100%" onclick="listar_ingreso()"><i class="fa fa-search"></i>Buscar</button>
+                        <button class="btn btn-success" style="width:100%" onclick="listar_venta()"><i class="fa fa-search"></i>Buscar</button>
                     </div>
                 </div><br>
-                <table id="tabla_ingreso" class="display table-bordered" style="width:100%">
+                <table id="tabla_ventas" class="display table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Usuario</th>
-                            <th>Proveedor</th>
-                            <th>Tipo de comprobante</th>
-                            <th>Serie de comprobante</th>
-                            <th>Numero de comprobante</th>
+                            <th>Cliente</th>
+                            <th>Tipo Comprobante</th>
+                            <th>Serie Comprobante</th>
+                            <th>Nro Comprobante</th>
                             <th>Fecha de registro</th>
                             <th>Total</th>
                             <th>Impuesto</th>
@@ -91,7 +91,7 @@ $(document).ready(function() {
     }
     document.getElementById('txt_finicio').value=anio+"-"+mes+"-"+d;
     document.getElementById('txt_ffin').value=anio+"-"+mes+"-"+d;
-    listar_ingreso();
+    listar_venta();
 });
 
 $('#modal_registro').on('shown.bs.modal', function() {

@@ -122,6 +122,51 @@
             }
         }
 
+        function TraerDatosWidget($inicio,$fin){
+            $sql = "call SP_TRAER_DATOS_WIDGET('$inicio','$fin')";
+            $arreglo = array();
+
+            if ($consulta = $this->conexion->conexion->query($sql)) {
+                while($consulta_vu = mysqli_fetch_array($consulta)){
+                    
+                    $arreglo[] = $consulta_vu;
+
+                }
+                return $arreglo;
+                $this->conexion->cerrar();
+            }
+        }
+
+        function TraerDatosGraficoVentaWidget($inicio,$fin){
+            $sql = "call SP_TRAER_DATOS_GRAFICO_VENTA_WIDGET('$inicio','$fin')";
+            $arreglo = array();
+
+            if ($consulta = $this->conexion->conexion->query($sql)) {
+                while($consulta_vu = mysqli_fetch_array($consulta)){
+                    
+                    $arreglo[] = $consulta_vu;
+
+                }
+                return $arreglo;
+                $this->conexion->cerrar();
+            }
+        }
+
+        function TraerDatosGraficoIngresoWidget($inicio,$fin){
+            $sql = "call SP_TRAER_DATOS_GRAFICO_INGRESO_WIDGET('$inicio','$fin')";
+            $arreglo = array();
+
+            if ($consulta = $this->conexion->conexion->query($sql)) {
+                while($consulta_vu = mysqli_fetch_array($consulta)){
+                    
+                    $arreglo[] = $consulta_vu;
+
+                }
+                return $arreglo;
+                $this->conexion->cerrar();
+            }
+        }
+
         function Actualizar_Datos_Profile($id,$nombre,$apepat,$apemat,$ndocumento,$tdocumento,$sexo,$telefono){
             $sql = "call SP_ACTUALIZAR_DATOS_PERSONA_PROFILE('$id','$nombre','$apepat','$apemat','$ndocumento','$tdocumento','$sexo','$telefono')";
             if ($consulta = $this->conexion->conexion->query($sql)) {  

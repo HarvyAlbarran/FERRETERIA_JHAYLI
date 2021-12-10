@@ -22,16 +22,13 @@
     <link href="plantilla/assets/css/main.css" rel="stylesheet" />
     <!-- PAGE LEVEL STYLES-->
     <link href="plantilla/assets/css/pages/auth-light.css" rel="stylesheet" />
-    <link href="plantilla/assets/css/estilo.css" rel="stylesheet" />
 </head>
 
-<body>
+<body style="background: #323B44;">
     <div class="content"> 
-        <div class="brand mt-5">
-            <a class="link" href="login.php"></a><br><br>
-        </div>
-        <form id="login-form" action="javascript:;" method="post" class="mt-5" style="background-color: #252a30;">
-            <h2 class="login-title" style="font-family:Times New Roman;color:white" >INGRESAR</h2>
+    <center><a href="https://ferreteriajhayli.com/"><br><img src="plantilla/assets/img/login.png" ></a></center>
+        <form id="login-form" action="javascript:;" method="post" class="mt-5" style="background-color: #FFF;">
+            <h2 class="login-title" style="font-family:Fantasy;color:#323b44" >BIENVENIDO</h2>
             <div class="form-group">
                 <div class="input-group-icon right">
                     <div class="input-icon"><i class="fa fa-users"></i></div>
@@ -46,7 +43,7 @@
             </div>
             
             <div class="form-group">
-                <button class="btn btn-block" style="background-color: #FF914D;" onclick="verificar_Usuario()">Ingresar</button>
+                <button class="btn btn-block" style="background-color: #323b44;"  onclick="verificar_Usuario()"><a style="font-family:Fantasy;color:white">INICIAR SESIÓN</a></button>
             </div>
 
         </form>

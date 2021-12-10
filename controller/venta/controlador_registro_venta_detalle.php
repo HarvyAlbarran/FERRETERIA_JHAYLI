@@ -1,7 +1,7 @@
 <?php
 
-    require '../../model/modelo_ingreso.php';
-    $MI = new Modelo_Ingreso();
+    require '../../model/modelo_venta.php';
+    $MV = new Modelo_Venta();
 
     $id = htmlspecialchars($_POST['id'],ENT_QUOTES,'UTF-8');
     $producto = htmlspecialchars($_POST['producto'],ENT_QUOTES,'UTF-8');
@@ -14,7 +14,7 @@
     $array_precio = explode(",",$precio);
 
     for ($i=0; $i < count($array_producto); $i++) { 
-        $consulta = $MI->Registrar_Ingreso_Detalle($id,$array_producto[$i],$array_cantidad[$i],$array_precio[$i]);
+        $consulta = $MV->Registrar_Venta_Detalle($id,$array_producto[$i],$array_cantidad[$i],$array_precio[$i]);
     }
 
     echo $consulta;

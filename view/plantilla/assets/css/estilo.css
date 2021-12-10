@@ -1,6 +1,5 @@
 body{
-    background: url("../img/fondo.jpeg");
-    background-size: 100%;
+    background-color: #FFF;
 }
 
 .page-sidebar {
@@ -8,6 +7,6 @@ body{
 }
 
 .header{
-    background-color: #272727;
+    background-color: #373737;
 }
 

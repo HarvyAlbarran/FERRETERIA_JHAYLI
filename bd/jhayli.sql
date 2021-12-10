@@ -1,218 +1,332 @@
--- --------------------------------------------------------
--- Host:                         localhost
--- Versión del servidor:         5.7.33 - MySQL Community Server (GPL)
--- SO del servidor:              Win64
--- HeidiSQL Versión:             11.2.0.6213
--- --------------------------------------------------------
+/*
+ Navicat Premium Data Transfer
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+ Source Server         : localhost_3306
+ Source Server Type    : MySQL
+ Source Server Version : 50733
+ Source Host           : localhost:3306
+ Source Schema         : jhayli
 
+ Target Server Type    : MySQL
+ Target Server Version : 50733
+ File Encoding         : 65001
 
--- Volcando estructura de base de datos para jhayli
-CREATE DATABASE IF NOT EXISTS `jhayli` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci */;
-USE `jhayli`;
+ Date: 09/12/2021 23:07:40
+*/
 
--- Volcando estructura para tabla jhayli.categoria
-CREATE TABLE IF NOT EXISTS `categoria` (
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for categoria
+-- ----------------------------
+DROP TABLE IF EXISTS `categoria`;
+CREATE TABLE `categoria`  (
   `categoria_id` int(11) NOT NULL AUTO_INCREMENT,
-  `categoria_nombre` varchar(150) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `categoria_fregistro` date DEFAULT NULL,
-  `categoria_estatus` enum('ACTIVO','INACTIVO') COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`categoria_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `categoria_nombre` varchar(150) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `categoria_fregistro` date NULL DEFAULT NULL,
+  `categoria_estatus` enum('ACTIVO','INACTIVO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`categoria_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
--- Volcando datos para la tabla jhayli.categoria: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
-INSERT INTO `categoria` (`categoria_id`, `categoria_nombre`, `categoria_fregistro`, `categoria_estatus`) VALUES
-	(1, 'CONSTRUCCIÓN', '2021-11-25', 'ACTIVO'),
-	(2, 'ELÉCTRICOS', '2021-11-25', 'ACTIVO');
-/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
+-- ----------------------------
+-- Records of categoria
+-- ----------------------------
+INSERT INTO `categoria` VALUES (1, 'CONSTRUCCIÓN', '2021-11-25', 'ACTIVO');
+INSERT INTO `categoria` VALUES (2, 'ELÉCTRICOS', '2021-11-25', 'ACTIVO');
 
--- Volcando estructura para tabla jhayli.cliente
-CREATE TABLE IF NOT EXISTS `cliente` (
+-- ----------------------------
+-- Table structure for cliente
+-- ----------------------------
+DROP TABLE IF EXISTS `cliente`;
+CREATE TABLE `cliente`  (
   `cliente_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cliente_fregistro` date DEFAULT NULL,
-  `cliente_estatus` enum('ACTIVO','INACTIVO') COLLATE utf8_spanish_ci DEFAULT NULL,
-  `persona_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`cliente_id`),
-  KEY `persona_id` (`persona_id`),
-  CONSTRAINT `cliente_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `cliente_fregistro` date NULL DEFAULT NULL,
+  `cliente_estatus` enum('ACTIVO','INACTIVO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `persona_id` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`cliente_id`) USING BTREE,
+  INDEX `persona_id`(`persona_id`) USING BTREE,
+  CONSTRAINT `cliente_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
--- Volcando datos para la tabla jhayli.cliente: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` (`cliente_id`, `cliente_fregistro`, `cliente_estatus`, `persona_id`) VALUES
-	(1, '2021-12-01', 'ACTIVO', 2);
-/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
+-- ----------------------------
+-- Records of cliente
+-- ----------------------------
+INSERT INTO `cliente` VALUES (1, '2021-12-01', 'ACTIVO', 2);
 
--- Volcando estructura para tabla jhayli.detalle_ingreso
-CREATE TABLE IF NOT EXISTS `detalle_ingreso` (
+-- ----------------------------
+-- Table structure for detalle_ingreso
+-- ----------------------------
+DROP TABLE IF EXISTS `detalle_ingreso`;
+CREATE TABLE `detalle_ingreso`  (
   `detalleingreso_id` int(11) NOT NULL AUTO_INCREMENT,
-  `ingreso_id` int(11) DEFAULT NULL,
-  `producto_id` int(11) DEFAULT NULL,
-  `detalleingreso_cantidad` decimal(10,2) DEFAULT NULL,
-  `detalleingreso_precio` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`detalleingreso_id`),
-  KEY `ingreso_id` (`ingreso_id`),
-  KEY `producto_id` (`producto_id`),
-  CONSTRAINT `detalle_ingreso_ibfk_1` FOREIGN KEY (`ingreso_id`) REFERENCES `ingreso` (`ingreso_id`),
-  CONSTRAINT `detalle_ingreso_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`producto_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `ingreso_id` int(11) NULL DEFAULT NULL,
+  `producto_id` int(11) NULL DEFAULT NULL,
+  `detalleingreso_cantidad` decimal(10, 2) NULL DEFAULT NULL,
+  `detalleingreso_precio` decimal(10, 2) NULL DEFAULT NULL,
+  `detalleingreso_estatus` enum('INGRESADO','ANULADO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`detalleingreso_id`) USING BTREE,
+  INDEX `ingreso_id`(`ingreso_id`) USING BTREE,
+  INDEX `producto_id`(`producto_id`) USING BTREE,
+  CONSTRAINT `detalle_ingreso_ibfk_1` FOREIGN KEY (`ingreso_id`) REFERENCES `ingreso` (`ingreso_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `detalle_ingreso_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`producto_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
--- Volcando datos para la tabla jhayli.detalle_ingreso: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `detalle_ingreso` DISABLE KEYS */;
-/*!40000 ALTER TABLE `detalle_ingreso` ENABLE KEYS */;
+-- ----------------------------
+-- Records of detalle_ingreso
+-- ----------------------------
+INSERT INTO `detalle_ingreso` VALUES (4, 24, 1, 5.00, 10.50, 'INGRESADO');
 
--- Volcando estructura para tabla jhayli.detalle_venta
-CREATE TABLE IF NOT EXISTS `detalle_venta` (
+-- ----------------------------
+-- Table structure for detalle_venta
+-- ----------------------------
+DROP TABLE IF EXISTS `detalle_venta`;
+CREATE TABLE `detalle_venta`  (
   `detalleventa_id` int(11) NOT NULL AUTO_INCREMENT,
-  `venta_id` int(11) DEFAULT NULL,
-  `producto_id` int(11) DEFAULT NULL,
-  `detalleventa_cantidad` decimal(10,2) DEFAULT NULL,
-  `detalleventa_precio` decimal(10,2) DEFAULT NULL,
-  `detalleventa_descuento` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`detalleventa_id`),
-  KEY `venta_id` (`venta_id`),
-  KEY `producto_id` (`producto_id`),
-  CONSTRAINT `detalle_venta_ibfk_1` FOREIGN KEY (`venta_id`) REFERENCES `venta` (`venta_id`),
-  CONSTRAINT `detalle_venta_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`producto_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `venta_id` int(11) NULL DEFAULT NULL,
+  `producto_id` int(11) NULL DEFAULT NULL,
+  `detalleventa_cantidad` decimal(10, 2) NULL DEFAULT NULL,
+  `detalleventa_precio` decimal(10, 2) NULL DEFAULT NULL,
+  `detalleventa_estatus` enum('INGRESADO','ANULADA') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`detalleventa_id`) USING BTREE,
+  INDEX `venta_id`(`venta_id`) USING BTREE,
+  INDEX `producto_id`(`producto_id`) USING BTREE,
+  CONSTRAINT `detalle_venta_ibfk_1` FOREIGN KEY (`venta_id`) REFERENCES `venta` (`venta_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `detalle_venta_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`producto_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
--- Volcando datos para la tabla jhayli.detalle_venta: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `detalle_venta` DISABLE KEYS */;
-/*!40000 ALTER TABLE `detalle_venta` ENABLE KEYS */;
+-- ----------------------------
+-- Records of detalle_venta
+-- ----------------------------
+INSERT INTO `detalle_venta` VALUES (4, 7, 1, 3.00, 10.00, 'ANULADA');
+INSERT INTO `detalle_venta` VALUES (5, 8, 1, 3.00, 10.00, 'ANULADA');
+INSERT INTO `detalle_venta` VALUES (6, 9, 1, 3.00, 10.00, 'ANULADA');
+INSERT INTO `detalle_venta` VALUES (7, 10, 1, 3.00, 10.00, 'INGRESADO');
 
--- Volcando estructura para tabla jhayli.ingreso
-CREATE TABLE IF NOT EXISTS `ingreso` (
+-- ----------------------------
+-- Table structure for ingreso
+-- ----------------------------
+DROP TABLE IF EXISTS `ingreso`;
+CREATE TABLE `ingreso`  (
   `ingreso_id` int(11) NOT NULL AUTO_INCREMENT,
-  `proveedor_id` int(11) DEFAULT NULL,
-  `usuario_id` int(11) DEFAULT NULL,
-  `ingreso_tipcomprobante` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `ingreso_seriecomprobante` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `ingreso_numcomprobante` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `ingreso_fecha` date DEFAULT NULL,
-  `ingreso_total` decimal(10,2) DEFAULT NULL,
-  `ingreso_impuesto` decimal(10,2) DEFAULT NULL,
-  `ingreso_estatus` enum('INGRESADO','PENDIENTE') COLLATE utf8_spanish_ci DEFAULT NULL,
-  `ingreso_porcentaje` decimal(2,2) DEFAULT NULL,
-  PRIMARY KEY (`ingreso_id`),
-  KEY `proveedor_id` (`proveedor_id`),
-  KEY `usuario_id` (`usuario_id`),
-  CONSTRAINT `ingreso_ibfk_1` FOREIGN KEY (`proveedor_id`) REFERENCES `proveedor` (`proveedor_id`),
-  CONSTRAINT `ingreso_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `proveedor_id` int(11) NULL DEFAULT NULL,
+  `usuario_id` int(11) NULL DEFAULT NULL,
+  `ingreso_tipcomprobante` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `ingreso_seriecomprobante` varchar(20) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `ingreso_numcomprobante` varchar(20) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `ingreso_fecha` date NULL DEFAULT NULL,
+  `ingreso_total` decimal(10, 2) NULL DEFAULT NULL,
+  `ingreso_impuesto` decimal(10, 2) NULL DEFAULT NULL,
+  `ingreso_estatus` enum('INGRESADO','ANULADO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `ingreso_porcentaje` decimal(2, 2) NULL DEFAULT NULL,
+  PRIMARY KEY (`ingreso_id`) USING BTREE,
+  INDEX `proveedor_id`(`proveedor_id`) USING BTREE,
+  INDEX `usuario_id`(`usuario_id`) USING BTREE,
+  CONSTRAINT `ingreso_ibfk_1` FOREIGN KEY (`proveedor_id`) REFERENCES `proveedor` (`proveedor_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `ingreso_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
--- Volcando datos para la tabla jhayli.ingreso: ~1 rows (aproximadamente)
-/*!40000 ALTER TABLE `ingreso` DISABLE KEYS */;
-INSERT INTO `ingreso` (`ingreso_id`, `proveedor_id`, `usuario_id`, `ingreso_tipcomprobante`, `ingreso_seriecomprobante`, `ingreso_numcomprobante`, `ingreso_fecha`, `ingreso_total`, `ingreso_impuesto`, `ingreso_estatus`, `ingreso_porcentaje`) VALUES
-	(1, 2, 1, 'Factura', 'FAC', '001', '2021-12-01', 100.00, 15.00, 'INGRESADO', NULL);
-/*!40000 ALTER TABLE `ingreso` ENABLE KEYS */;
+-- ----------------------------
+-- Records of ingreso
+-- ----------------------------
+INSERT INTO `ingreso` VALUES (24, 2, 1, 'BOLETA', '001', '001', '2021-12-09', 52.50, 0.00, 'INGRESADO', 0.00);
 
--- Volcando estructura para tabla jhayli.persona
-CREATE TABLE IF NOT EXISTS `persona` (
+-- ----------------------------
+-- Table structure for persona
+-- ----------------------------
+DROP TABLE IF EXISTS `persona`;
+CREATE TABLE `persona`  (
   `persona_id` int(11) NOT NULL AUTO_INCREMENT,
-  `persona_nombre` varchar(100) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `persona_apepat` varchar(100) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `persona_apemat` varchar(100) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `persona_nrodocumento` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `persona_tipodocumento` enum('DNI','RUC','PASAPORTE') COLLATE utf8_spanish_ci DEFAULT NULL,
-  `persona_sexo` enum('MASCULINO','FEMENINO') COLLATE utf8_spanish_ci DEFAULT NULL,
-  `persona_telefono` varchar(12) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `persona_fregistro` date DEFAULT NULL,
-  `persona_estatus` enum('ACTIVO','INACTIVO') COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`persona_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `persona_nombre` varchar(100) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `persona_apepat` varchar(100) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `persona_apemat` varchar(100) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `persona_nrodocumento` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `persona_tipodocumento` enum('DNI','RUC','PASAPORTE') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `persona_sexo` enum('MASCULINO','FEMENINO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `persona_telefono` varchar(12) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `persona_fregistro` date NULL DEFAULT NULL,
+  `persona_estatus` enum('ACTIVO','INACTIVO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`persona_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
--- Volcando datos para la tabla jhayli.persona: ~6 rows (aproximadamente)
-/*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` (`persona_id`, `persona_nombre`, `persona_apepat`, `persona_apemat`, `persona_nrodocumento`, `persona_tipodocumento`, `persona_sexo`, `persona_telefono`, `persona_fregistro`, `persona_estatus`) VALUES
-	(1, 'HARVY', 'ALBARRAN', 'SALAZAR', '48251369', 'DNI', 'MASCULINO', '984198324', '2021-11-23', 'ACTIVO'),
-	(2, 'JENNIFFER GERALDINE', 'DIAZ', 'CORONADO', '46894656', 'DNI', 'FEMENINO', '986413872', '2021-11-24', 'ACTIVO'),
-	(3, 'PERLA', 'PAICO', 'SANTOS', '5648315821', 'PASAPORTE', 'FEMENINO', '982572310', '2021-11-24', 'ACTIVO'),
-	(4, 'SEGUNDO', 'ASENJO', 'SAAVEDRA', '78456632', 'DNI', 'MASCULINO', '982158232', '2021-11-24', 'ACTIVO'),
-	(5, 'ERNESTO', 'HUAMAN', 'MIO', '43564125', 'DNI', 'MASCULINO', '985482135', '2021-11-26', 'ACTIVO'),
-	(6, 'WILMER', 'CUNYARACHE', 'ROñA', '64543561', 'DNI', 'MASCULINO', '974356432', '2021-11-26', 'ACTIVO'),
-	(7, 'LUCILA', 'CRUZ', 'LLAGUENTO', '68742348', 'DNI', 'FEMENINO', '987542345', '2021-11-26', 'ACTIVO'),
-	(8, 'FERRETERIA DIAZ', 'PEREZ', 'VASQUEZ', '78943215825', 'RUC', 'FEMENINO', '984214511', '2021-12-02', 'ACTIVO');
-/*!40000 ALTER TABLE `persona` ENABLE KEYS */;
+-- ----------------------------
+-- Records of persona
+-- ----------------------------
+INSERT INTO `persona` VALUES (1, 'HARVY', 'ALBARRAN', 'SALAZAR', '48251369', 'DNI', 'MASCULINO', '984198324', '2021-11-23', 'ACTIVO');
+INSERT INTO `persona` VALUES (2, 'JENNIFFER GERALDINE', 'DIAZ', 'CORONADO', '46894656', 'DNI', 'FEMENINO', '986413872', '2021-11-24', 'ACTIVO');
+INSERT INTO `persona` VALUES (3, 'PERLA', 'PAICO', 'SANTOS', '5648315821', 'PASAPORTE', 'FEMENINO', '982572310', '2021-11-24', 'ACTIVO');
+INSERT INTO `persona` VALUES (4, 'SEGUNDO', 'ASENJO', 'SAAVEDRA', '78456632', 'DNI', 'MASCULINO', '982158232', '2021-11-24', 'ACTIVO');
+INSERT INTO `persona` VALUES (5, 'ERNESTO', 'HUAMAN', 'MIO', '43564125', 'DNI', 'MASCULINO', '985482135', '2021-11-26', 'ACTIVO');
+INSERT INTO `persona` VALUES (6, 'WILMER', 'CUNYARACHE', 'ROñA', '64543561', 'DNI', 'MASCULINO', '974356432', '2021-11-26', 'ACTIVO');
+INSERT INTO `persona` VALUES (7, 'LUCILA', 'CRUZ', 'LLAGUENTO', '68742348', 'DNI', 'FEMENINO', '987542345', '2021-11-26', 'ACTIVO');
+INSERT INTO `persona` VALUES (8, 'FERRETERIA DIAZ', 'PEREZ', 'VASQUEZ', '78943215825', 'RUC', 'FEMENINO', '984214511', '2021-12-02', 'ACTIVO');
 
--- Volcando estructura para tabla jhayli.producto
-CREATE TABLE IF NOT EXISTS `producto` (
+-- ----------------------------
+-- Table structure for producto
+-- ----------------------------
+DROP TABLE IF EXISTS `producto`;
+CREATE TABLE `producto`  (
   `producto_id` int(11) NOT NULL AUTO_INCREMENT,
-  `producto_nombre` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `producto_presentacion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `producto_stock` decimal(10,2) DEFAULT NULL,
-  `categoria_id` int(11) DEFAULT NULL,
-  `unidad_id` int(11) DEFAULT NULL,
-  `producto_foto` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `producto_precioventa` decimal(10,2) DEFAULT NULL,
-  `producto_estatus` enum('ACTIVO','INACTIVO') COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`producto_id`),
-  KEY `categoria_id` (`categoria_id`),
-  KEY `unidad_id` (`unidad_id`),
-  CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`categoria_id`),
-  CONSTRAINT `producto_ibfk_2` FOREIGN KEY (`unidad_id`) REFERENCES `unidad_medida` (`unidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `producto_nombre` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `producto_presentacion` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `producto_stock` decimal(10, 2) NULL DEFAULT NULL,
+  `categoria_id` int(11) NULL DEFAULT NULL,
+  `unidad_id` int(11) NULL DEFAULT NULL,
+  `producto_foto` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `producto_precioventa` decimal(10, 2) NULL DEFAULT NULL,
+  `producto_estatus` enum('ACTIVO','INACTIVO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`producto_id`) USING BTREE,
+  INDEX `categoria_id`(`categoria_id`) USING BTREE,
+  INDEX `unidad_id`(`unidad_id`) USING BTREE,
+  CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`categoria_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `producto_ibfk_2` FOREIGN KEY (`unidad_id`) REFERENCES `unidad_medida` (`unidad_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
--- Volcando datos para la tabla jhayli.producto: ~3 rows (aproximadamente)
-/*!40000 ALTER TABLE `producto` DISABLE KEYS */;
-INSERT INTO `producto` (`producto_id`, `producto_nombre`, `producto_presentacion`, `producto_stock`, `categoria_id`, `unidad_id`, `producto_foto`, `producto_precioventa`, `producto_estatus`) VALUES
-	(1, 'Martillo', 'Andino', 10.00, 1, 5, 'controller/producto/img/producto_default.png', 10.00, 'ACTIVO'),
-	(2, 'CEMENTO', 'PACASMAYO ROJO', 0.00, 1, 5, 'controller/producto/img/producto_default.png', 31.50, 'ACTIVO'),
-	(3, 'CEMENTO AZUL', 'PACASMAYO ', 0.00, 1, 1, 'controller/producto/img/PRO112202112943.png', 32.50, 'ACTIVO');
-/*!40000 ALTER TABLE `producto` ENABLE KEYS */;
+-- ----------------------------
+-- Records of producto
+-- ----------------------------
+INSERT INTO `producto` VALUES (1, 'Martillo', 'Andino', 15.00, 1, 5, 'controller/producto/img/producto_default.png', 10.00, 'ACTIVO');
+INSERT INTO `producto` VALUES (2, 'CEMENTO', 'PACASMAYO ROJO', 0.00, 1, 5, 'controller/producto/img/producto_default.png', 31.50, 'ACTIVO');
+INSERT INTO `producto` VALUES (3, 'CEMENTO AZUL', 'PACASMAYO ', 10.00, 1, 1, 'controller/producto/img/PRO112202112943.png', 32.50, 'ACTIVO');
 
--- Volcando estructura para tabla jhayli.proveedor
-CREATE TABLE IF NOT EXISTS `proveedor` (
+-- ----------------------------
+-- Table structure for proveedor
+-- ----------------------------
+DROP TABLE IF EXISTS `proveedor`;
+CREATE TABLE `proveedor`  (
   `proveedor_id` int(11) NOT NULL AUTO_INCREMENT,
-  `proveedor_numcontacto` varchar(12) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `proveedor_contacto` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `proveedor_estatus` enum('ACTIVO','INACTIVO') COLLATE utf8_spanish_ci DEFAULT NULL,
-  `persona_id` int(11) DEFAULT NULL,
-  `proveedor_razonsocial` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`proveedor_id`),
-  KEY `persona_id` (`persona_id`),
-  CONSTRAINT `proveedor_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `proveedor_numcontacto` varchar(12) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `proveedor_contacto` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `proveedor_estatus` enum('ACTIVO','INACTIVO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `persona_id` int(11) NULL DEFAULT NULL,
+  `proveedor_razonsocial` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`proveedor_id`) USING BTREE,
+  INDEX `persona_id`(`persona_id`) USING BTREE,
+  CONSTRAINT `proveedor_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
--- Volcando datos para la tabla jhayli.proveedor: ~1 rows (aproximadamente)
-/*!40000 ALTER TABLE `proveedor` DISABLE KEYS */;
-INSERT INTO `proveedor` (`proveedor_id`, `proveedor_numcontacto`, `proveedor_contacto`, `proveedor_estatus`, `persona_id`, `proveedor_razonsocial`) VALUES
-	(2, '958514332', 'FERRETERIA DIAZ', 'ACTIVO', 8, 'AV. CHICLAYO Y CORNEJO');
-/*!40000 ALTER TABLE `proveedor` ENABLE KEYS */;
+-- ----------------------------
+-- Records of proveedor
+-- ----------------------------
+INSERT INTO `proveedor` VALUES (2, '958514332', 'FERRETERIA DIAZ', 'ACTIVO', 8, 'AV. CHICLAYO Y CORNEJO');
 
--- Volcando estructura para tabla jhayli.rol
-CREATE TABLE IF NOT EXISTS `rol` (
+-- ----------------------------
+-- Table structure for rol
+-- ----------------------------
+DROP TABLE IF EXISTS `rol`;
+CREATE TABLE `rol`  (
   `rol_id` int(11) NOT NULL AUTO_INCREMENT,
-  `rol_nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `rol_estatus` enum('ACTIVO','INACTIVO') COLLATE utf8_spanish_ci NOT NULL,
-  `rol_feregistro` date DEFAULT NULL,
-  PRIMARY KEY (`rol_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `rol_nombre` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `rol_estatus` enum('ACTIVO','INACTIVO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `rol_feregistro` date NULL DEFAULT NULL,
+  PRIMARY KEY (`rol_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
--- Volcando datos para la tabla jhayli.rol: ~2 rows (aproximadamente)
-/*!40000 ALTER TABLE `rol` DISABLE KEYS */;
-INSERT INTO `rol` (`rol_id`, `rol_nombre`, `rol_estatus`, `rol_feregistro`) VALUES
-	(1, 'ADMIN', 'ACTIVO', '2021-11-22'),
-	(3, 'VENDEDOR', 'ACTIVO', '2021-11-23');
-/*!40000 ALTER TABLE `rol` ENABLE KEYS */;
+-- ----------------------------
+-- Records of rol
+-- ----------------------------
+INSERT INTO `rol` VALUES (1, 'ADMIN', 'ACTIVO', '2021-11-22');
+INSERT INTO `rol` VALUES (3, 'VENDEDOR', 'ACTIVO', '2021-11-23');
+INSERT INTO `rol` VALUES (4, 'JEFE DE ALMACEN', 'ACTIVO', '2021-12-09');
 
--- Volcando estructura para procedimiento jhayli.SP_ACTUALIZAR_CONTRA_USUARIO
-DELIMITER //
+-- ----------------------------
+-- Table structure for unidad_medida
+-- ----------------------------
+DROP TABLE IF EXISTS `unidad_medida`;
+CREATE TABLE `unidad_medida`  (
+  `unidad_id` int(11) NOT NULL AUTO_INCREMENT,
+  `unidad_nombre` varchar(100) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `unidad_estatus` enum('ACTIVO','INACTIVO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `unidad_abreviatura` char(6) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `unidad_fregistro` date NULL DEFAULT NULL,
+  PRIMARY KEY (`unidad_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of unidad_medida
+-- ----------------------------
+INSERT INTO `unidad_medida` VALUES (1, 'Kilogramo', 'ACTIVO', 'kg', '2021-11-29');
+INSERT INTO `unidad_medida` VALUES (2, 'Litro', 'ACTIVO', 'L', '2021-11-29');
+INSERT INTO `unidad_medida` VALUES (3, 'Metro', 'ACTIVO', 'm', '2021-11-29');
+INSERT INTO `unidad_medida` VALUES (4, 'Centimetro', 'ACTIVO', 'cm', '2021-11-29');
+INSERT INTO `unidad_medida` VALUES (5, 'Entero', 'ACTIVO', 'E', '2021-11-29');
+
+-- ----------------------------
+-- Table structure for usuario
+-- ----------------------------
+DROP TABLE IF EXISTS `usuario`;
+CREATE TABLE `usuario`  (
+  `usuario_id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_nombre` varchar(15) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `usuario_password` varchar(250) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `usuario_email` varchar(250) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `usuario_intento` int(11) NOT NULL,
+  `usuario_estatus` enum('ACTIVO','INACTIVO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `rol_id` int(11) NOT NULL DEFAULT 0,
+  `usuario_imagen` varchar(250) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `persona_id` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`usuario_id`) USING BTREE,
+  INDEX `FK_usuario_rol`(`rol_id`) USING BTREE,
+  INDEX `persona_id`(`persona_id`) USING BTREE,
+  CONSTRAINT `FK_usuario_rol` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`rol_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of usuario
+-- ----------------------------
+INSERT INTO `usuario` VALUES (1, 'admin', '$2y$10$CEQ98B6dCF2kBdPJsfZBMuHhOsDFsHPfGlYA3pX.kA9tFztA/BsXu', 'admin@gmail.com', 1, 'ACTIVO', 1, 'controller/usuario/img/user_defecto.png', NULL);
+INSERT INTO `usuario` VALUES (2, 'harvy', '$2y$10$BTIoLG2nLwAwQ55XLZL0aOZbmzuJLejoMOraWjRMJCPQvGZlFBOI6', 'harvy@gmail.com', 1, 'ACTIVO', 4, 'controller/usuario/img/IMG912202135643.png', 1);
+
+-- ----------------------------
+-- Table structure for venta
+-- ----------------------------
+DROP TABLE IF EXISTS `venta`;
+CREATE TABLE `venta`  (
+  `venta_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cliente_id` int(11) NULL DEFAULT NULL,
+  `usuario_id` int(11) NULL DEFAULT NULL,
+  `venta_tipocomprobante` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `venta_seriecomprobante` varchar(20) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `venta_numcomprobante` varchar(20) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `venta_fecha` date NULL DEFAULT NULL,
+  `venta_impuesto` decimal(10, 2) NULL DEFAULT NULL,
+  `venta_total` decimal(10, 2) NULL DEFAULT NULL,
+  `venta_estatus` enum('PAGADA','ANULADA','REGISTRADA') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `venta_porcentaje` decimal(2, 2) NULL DEFAULT NULL,
+  PRIMARY KEY (`venta_id`) USING BTREE,
+  INDEX `cliente_id`(`cliente_id`) USING BTREE,
+  INDEX `usuario_id`(`usuario_id`) USING BTREE,
+  CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`cliente_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of venta
+-- ----------------------------
+INSERT INTO `venta` VALUES (7, 1, 1, 'BOLETA', '001', '001', '2021-12-08', 0.00, 30.00, 'ANULADA', 0.00);
+INSERT INTO `venta` VALUES (8, 1, 1, 'BOLETA', '002', '002', '2021-12-08', 0.00, 30.00, 'ANULADA', 0.00);
+INSERT INTO `venta` VALUES (9, 1, 1, 'BOLETA', '003', '003', '2021-12-08', 0.00, 30.00, 'ANULADA', 0.00);
+INSERT INTO `venta` VALUES (10, 1, 1, 'BOLETA', '001', '001', '2021-12-09', 0.00, 30.00, 'REGISTRADA', 0.00);
+
+-- ----------------------------
+-- Procedure structure for SP_ACTUALIZAR_CONTRA_USUARIO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_ACTUALIZAR_CONTRA_USUARIO`;
+delimiter ;;
 CREATE PROCEDURE `SP_ACTUALIZAR_CONTRA_USUARIO`(IN ID INT, IN CONTRA VARCHAR
 (250))
 UPDATE usuario set
 usuario_password=CONTRA
-where usuario_id=ID//
-DELIMITER ;
+where usuario_id=ID
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_ACTUALIZAR_DATOS_PERSONA_PROFILE
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_ACTUALIZAR_DATOS_PERSONA_PROFILE
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_ACTUALIZAR_DATOS_PERSONA_PROFILE`;
+delimiter ;;
 CREATE PROCEDURE `SP_ACTUALIZAR_DATOS_PERSONA_PROFILE`(IN ID INT, 
 IN NOMBRE VARCHAR(100), IN APEPAT VARCHAR(50), IN APEMAT VARCHAR(50), 
 IN NUMERODOCUMENTO VARCHAR(11), IN TIPODOCUMENTO VARCHAR(12), 
@@ -250,11 +364,95 @@ ELSE
 SELECT 2;
 END IF;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_EDITAR_CATEGORIA
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_ANULAR_INGRESO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_ANULAR_INGRESO`;
+delimiter ;;
+CREATE PROCEDURE `SP_ANULAR_INGRESO`(IN IDINGRESO INT)
+BEGIN
+DECLARE CANTIDAD INT;
+DECLARE IDPRODUCTO INT;
+DECLARE SCTOCKACTUAL DECIMAL(10,2);
+DECLARE DETALLEID INT;
+UPDATE ingreso set 
+ingreso_estatus='ANULADO'
+where ingreso_id=IDINGRESO;
+SET @CANTIDAD:=(SELECT COUNT(*) FROM detalle_ingreso 
+where detalleingreso_estatus='INGRESADO' AND ingreso_id=IDINGRESO);
+WHILE @CANTIDAD > 0 DO
+SET @IDPRODUCTO:=(SELECT producto_id from detalle_ingreso 
+where detalleingreso_estatus='INGRESADO' AND ingreso_id=IDINGRESO
+LIMIT 1);
+
+set @DETALLEID:=(SELECT detalleingreso_id from detalle_ingreso 
+where detalleingreso_estatus='INGRESADO' AND ingreso_id=IDINGRESO LIMIT 1);
+
+SET @STOCKACTUAL:=(SELECT producto_stock from producto 
+where producto_id=@IDPRODUCTO);
+
+UPDATE producto set
+producto_stock=@STOCKACTUAL -(SELECT detalleingreso_cantidad from detalle_ingreso 
+where detalleingreso_estatus='INGRESADO' AND ingreso_id=IDINGRESO LIMIT 1)
+WHERE producto_id=@IDPRODUCTO;
+UPDATE detalle_ingreso SET
+detalleingreso_estatus='ANULADO' 
+where detalleingreso_id=@DETALLEID;
+SET @CANTIDAD:= @CANTIDAD-1;
+END WHILE;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for SP_ANULAR_VENTA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_ANULAR_VENTA`;
+delimiter ;;
+CREATE PROCEDURE `SP_ANULAR_VENTA`(IN IDVENTA INT)
+BEGIN
+DECLARE CANTIDAD INT;
+DECLARE IDPRODUCTO INT;
+DECLARE SCTOCKACTUAL DECIMAL(10,2);
+DECLARE DETALLEID INT;
+UPDATE venta set 
+venta_estatus='ANULADA'
+where venta_id=IDVENTA;
+SET @CANTIDAD:=(SELECT COUNT(*) FROM detalle_venta
+where detalleventa_estatus='INGRESADO' AND venta_id=IDVENTA);
+WHILE @CANTIDAD > 0 DO
+SET @IDPRODUCTO:=(SELECT producto_id from detalle_venta 
+where detalleventa_estatus='INGRESADO' AND venta_id=IDVENTA
+LIMIT 1);
+
+set @DETALLEID:=(SELECT detalleventa_id from detalle_venta 
+where detalleventa_estatus='INGRESADO' AND venta_id=IDVENTA LIMIT 1);
+
+SET @STOCKACTUAL:=(SELECT producto_stock from producto 
+where producto_id=@IDPRODUCTO);
+
+UPDATE producto set
+producto_stock=@STOCKACTUAL +(SELECT detalleventa_cantidad from detalle_venta 
+where detalleventa_estatus='INGRESADO' AND venta_id=IDVENTA LIMIT 1)
+WHERE producto_id=@IDPRODUCTO;
+UPDATE detalle_venta SET
+detalleventa_estatus='ANULADA' 
+where detalleventa_id=@DETALLEID;
+SET @CANTIDAD:= @CANTIDAD-1;
+END WHILE;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for SP_EDITAR_CATEGORIA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_EDITAR_CATEGORIA`;
+delimiter ;;
 CREATE PROCEDURE `SP_EDITAR_CATEGORIA`(IN ID INT, IN CATEGORIAACTUAL VARCHAR(150),IN CATEGORIANUEVO VARCHAR(150),IN ESTATUS VARCHAR(10))
 BEGIN
 DECLARE CANTIDAD INT;
@@ -275,11 +473,15 @@ ELSE
 select 2;
 END IF;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_EDITAR_PERSONA
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_EDITAR_PERSONA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_EDITAR_PERSONA`;
+delimiter ;;
 CREATE PROCEDURE `SP_EDITAR_PERSONA`(IN IDPERSONA INT, IN NOMBRE VARCHAR(100),
 IN APEPAT VARCHAR(50), IN APEMAT VARCHAR(50), IN NUMERODOCUMENTOA VARCHAR(11),
 IN NUMERODOCUMENTON VARCHAR(11), IN TIPODOCUMENTO VARCHAR(12), IN SEXO VARCHAR(10),
@@ -316,11 +518,15 @@ persona_nrodocumento=NUMERODOCUMENTON,
 	SELECT 2;
 END IF;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_EDITAR_PRODUCTO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_EDITAR_PRODUCTO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_EDITAR_PRODUCTO`;
+delimiter ;;
 CREATE PROCEDURE `SP_EDITAR_PRODUCTO`(IN IDPRODUCTO INT, IN PRODUCTO VARCHAR(255),
 IN PRESENTACION VARCHAR(255), IN CATEGORIA INT, IN UNIDAD INT,
 IN PRECIO DECIMAL(10,2), IN ESTATUS VARCHAR(10))
@@ -358,11 +564,15 @@ ELSE
 	
 	END IF;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_EDITAR_ROL
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_EDITAR_ROL
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_EDITAR_ROL`;
+delimiter ;;
 CREATE PROCEDURE `SP_EDITAR_ROL`(IN ID INT, IN ROLACTUAL VARCHAR(15),IN ROLNUEVO VARCHAR(15),IN ESTATUS VARCHAR(10))
 BEGIN
 DECLARE CANTIDAD INT;
@@ -383,11 +593,15 @@ ELSE
 select 2;
 END IF;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_EDITAR_UNIDADMEDIDA
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_EDITAR_UNIDADMEDIDA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_EDITAR_UNIDADMEDIDA`;
+delimiter ;;
 CREATE PROCEDURE `SP_EDITAR_UNIDADMEDIDA`(IN ID INT, IN UNIDADACTUAL VARCHAR(100),
 IN UNIDADNUEVA VARCHAR(100), IN ABREVIATURAEDITAR VARCHAR(6), IN ESTATUS VARCHAR(10))
 BEGIN
@@ -411,11 +625,15 @@ ELSE
 SELECT 2;
 END IF;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_CATEGORIA
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_CATEGORIA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_CATEGORIA`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_CATEGORIA`()
 SELECT
 	categoria.categoria_id, 
@@ -423,11 +641,15 @@ SELECT
 	categoria.categoria_fregistro, 
 	categoria.categoria_estatus
 FROM
-	categoria//
-DELIMITER ;
+	categoria
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_CLIENTE
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_CLIENTE
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_CLIENTE`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_CLIENTE`()
 SELECT
 	CONCAT(' ', persona.persona_nombre, persona.persona_apepat, persona.persona_apemat) AS persona, 
@@ -444,56 +666,104 @@ FROM
 	INNER JOIN
 	persona
 	ON 
-		cliente.persona_id = persona.persona_id//
-DELIMITER ;
+		cliente.persona_id = persona.persona_id
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_COMBO_CATEGORIA
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_COMBO_CATEGORIA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_COMBO_CATEGORIA`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_COMBO_CATEGORIA`()
 SELECT categoria_id, categoria_nombre 
-FROM categoria//
-DELIMITER ;
+FROM categoria
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_COMBO_PERSONA
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_COMBO_CLIENTE
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_COMBO_CLIENTE`;
+delimiter ;;
+CREATE PROCEDURE `SP_LISTAR_COMBO_CLIENTE`()
+SELECT
+	CONCAT_WS(' ',persona.persona_nombre, persona.persona_apepat, persona.persona_apemat) as cliente,
+	persona.persona_nrodocumento, 
+	cliente.cliente_id
+FROM
+	cliente
+	INNER JOIN
+	persona
+	ON 
+		cliente.persona_id = persona.persona_id
+		WHERE cliente.cliente_estatus = 'ACTIVO'
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_COMBO_PERSONA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_COMBO_PERSONA`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_COMBO_PERSONA`()
 SELECT
 	persona.persona_id, 
 	CONCAT_WS(' ', persona.persona_nombre, persona.persona_apepat, persona.persona_apemat)
 FROM
 	persona
-	WHERE persona_estatus = 'ACTIVO'//
-DELIMITER ;
+	WHERE persona_estatus = 'ACTIVO'
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_COMBO_PRODUCTO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_COMBO_PRODUCTO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_COMBO_PRODUCTO`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_COMBO_PRODUCTO`()
-SELECT producto_id, producto_nombre FROM producto 
-where producto_estatus='ACTIVO'//
-DELIMITER ;
+SELECT producto_id, producto_nombre, producto_stock, producto_precioventa FROM producto 
+where producto_estatus='ACTIVO'
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_COMBO_PROVEEDOR
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_COMBO_PROVEEDOR
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_COMBO_PROVEEDOR`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_COMBO_PROVEEDOR`()
 SELECT proveedor_id, proveedor_contacto FROM proveedor 
-where proveedor_estatus='ACTIVO'//
-DELIMITER ;
+where proveedor_estatus='ACTIVO'
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_COMBO_ROL
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_COMBO_ROL
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_COMBO_ROL`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_COMBO_ROL`()
-SELECT rol_id, rol_nombre from rol where rol_estatus= 'ACTIVO'//
-DELIMITER ;
+SELECT rol_id, rol_nombre from rol where rol_estatus= 'ACTIVO'
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_COMBO_UNIDAD
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_COMBO_UNIDAD
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_COMBO_UNIDAD`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_COMBO_UNIDAD`()
 SELECT unidad_id, unidad_nombre 
-FROM unidad_medida//
-DELIMITER ;
+FROM unidad_medida
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_INGRESO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_INGRESO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_INGRESO`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_INGRESO`(IN INICIO DATE, IN FIN DATE)
 SELECT
 ingreso.ingreso_id,
@@ -522,11 +792,15 @@ INNER JOIN
 persona 
 ON
 proveedor.persona_id = persona.persona_id
-where ingreso.ingreso_fecha BETWEEN INICIO AND FIN//
-DELIMITER ;
+where ingreso.ingreso_fecha BETWEEN INICIO AND FIN
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_PERSONA
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_PERSONA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_PERSONA`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_PERSONA`()
 SELECT
 	CONCAT_WS(' ',persona_nombre,persona_apepat,persona_apemat) as persona,
@@ -540,11 +814,15 @@ SELECT
 	persona.persona_telefono, 
 	persona.persona_estatus
 FROM
-	persona//
-DELIMITER ;
+	persona
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_PRODUCTO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_PRODUCTO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_PRODUCTO`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_PRODUCTO`()
 SELECT
 	producto.producto_id, 
@@ -567,11 +845,15 @@ FROM
 	INNER JOIN
 	categoria
 	ON 
-		producto.categoria_id = categoria.categoria_id//
-DELIMITER ;
+		producto.categoria_id = categoria.categoria_id
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_PROVEEDOR
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_PROVEEDOR
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_PROVEEDOR`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_PROVEEDOR`()
 SELECT
 	proveedor.proveedor_numcontacto, 
@@ -590,11 +872,15 @@ FROM
 	INNER JOIN
 	persona
 	ON 
-		proveedor.persona_id = persona.persona_id//
-DELIMITER ;
+		proveedor.persona_id = persona.persona_id
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_ROL
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_ROL
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_ROL`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_ROL`()
 SELECT
 	rol.rol_id, 
@@ -602,11 +888,15 @@ SELECT
 	rol.rol_estatus, 
 	rol.rol_feregistro
 FROM
-	rol//
-DELIMITER ;
+	rol
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_UNIDADMEDIDA
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_UNIDADMEDIDA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_UNIDADMEDIDA`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_UNIDADMEDIDA`()
 SELECT
 unidad_medida.unidad_id,
@@ -615,11 +905,15 @@ unidad_medida.unidad_fregistro,
 unidad_medida.unidad_estatus,
 unidad_medida.unidad_abreviatura
 FROM
-unidad_medida//
-DELIMITER ;
+unidad_medida
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_LISTAR_USUARIO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_USUARIO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_USUARIO`;
+delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_USUARIO`()
 SELECT
 	usuario.usuario_id, 
@@ -640,48 +934,105 @@ FROM
 	LEFT JOIN 
 	persona
 	ON 
-		usuario.persona_id = persona.persona_id//
-DELIMITER ;
+		usuario.persona_id = persona.persona_id
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_MODIFICAR_ESTATUS_CLIENTE
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_LISTAR_VENTA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_LISTAR_VENTA`;
+delimiter ;;
+CREATE PROCEDURE `SP_LISTAR_VENTA`(IN INICIO DATE, IN FIN DATE)
+SELECT
+	usuario.usuario_nombre, 
+	venta.venta_tipocomprobante, 
+	venta.venta_seriecomprobante, 
+	venta.venta_numcomprobante, 
+	venta.venta_fecha, 
+	venta.venta_impuesto, 
+	venta.venta_total, 
+	venta.venta_estatus, 
+	venta.venta_id, 
+	venta.cliente_id, 
+	venta.usuario_id, 
+	CONCAT_WS(' ',persona.persona_nombre, persona.persona_apepat, persona.persona_apemat) AS cliente
+FROM
+	venta
+	INNER JOIN
+	usuario
+	ON 
+		venta.usuario_id = usuario.usuario_id
+	INNER JOIN
+	cliente
+	ON 
+		venta.cliente_id = cliente.cliente_id
+	INNER JOIN
+	persona
+	ON 
+		cliente.persona_id = persona.persona_id 
+		where venta.venta_fecha BETWEEN INICIO AND FIN
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for SP_MODIFICAR_ESTATUS_CLIENTE
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_MODIFICAR_ESTATUS_CLIENTE`;
+delimiter ;;
 CREATE PROCEDURE `SP_MODIFICAR_ESTATUS_CLIENTE`(IN IDCLIENTE INT, IN ESTATUS VARCHAR(10))
 UPDATE cliente set
 cliente_estatus=ESTATUS
-WHERE cliente_id=IDCLIENTE//
-DELIMITER ;
+WHERE cliente_id=IDCLIENTE
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_MODIFICAR_ESTATUS_PROVEEDOR
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_MODIFICAR_ESTATUS_PROVEEDOR
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_MODIFICAR_ESTATUS_PROVEEDOR`;
+delimiter ;;
 CREATE PROCEDURE `SP_MODIFICAR_ESTATUS_PROVEEDOR`(IN IDPROVEEDOR INT, IN ESTATUS VARCHAR(10))
 UPDATE proveedor set
 proveedor_estatus=ESTATUS
-WHERE proveedor_id=IDPROVEEDOR//
-DELIMITER ;
+WHERE proveedor_id=IDPROVEEDOR
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_MODIFICAR_PRODUCTO_FOTO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_MODIFICAR_PRODUCTO_FOTO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_MODIFICAR_PRODUCTO_FOTO`;
+delimiter ;;
 CREATE PROCEDURE `SP_MODIFICAR_PRODUCTO_FOTO`(IN ID INT, IN FOTO VARCHAR(250))
 BEGIN
 UPDATE producto set
 producto_foto=FOTO
 where producto_id=ID;
 SELECT 1;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_MODIFICAR_PROVEEDOR
-DELIMITER //
-CREATE PROCEDURE `SP_MODIFICAR_PROVEEDOR`(IN IDPROVEEDOR INT, IN RAZONSOCIAL VARCHAR(255), IN NOMCONTACTO VARCHAR(255), IN NUMCONTACTO VARCHAR(12) )
+-- ----------------------------
+-- Procedure structure for SP_MODIFICAR_PROVEEDOR
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_MODIFICAR_PROVEEDOR`;
+delimiter ;;
+CREATE PROCEDURE `SP_MODIFICAR_PROVEEDOR`(IN IDPROVEEDOR INT, IN RAZONSOCIAL VARCHAR(255), IN NOMCONTACTO VARCHAR(255), IN NUMCONTACTO VARCHAR(12))
 UPDATE proveedor set
 proveedor_razonsocial=RAZONSOCIAL,
 proveedor_contacto=NOMCONTACTO,
 proveedor_numcontacto=NUMCONTACTO
-WHERE proveedor_id=IDPROVEEDOR//
-DELIMITER ;
+WHERE proveedor_id=IDPROVEEDOR
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_MODIFICAR_USUARIO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_MODIFICAR_USUARIO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_MODIFICAR_USUARIO`;
+delimiter ;;
 CREATE PROCEDURE `SP_MODIFICAR_USUARIO`(IN ID INT,
 IN IDPERSONA INT, IN EMAILNUEVO VARCHAR(255), IN IDROL INT, IN ESTATUS VARCHAR(10))
 BEGIN
@@ -710,22 +1061,30 @@ ELSE
 SELECT 2;
 END IF;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_MODIFICAR_USUARIO_FOTO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_MODIFICAR_USUARIO_FOTO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_MODIFICAR_USUARIO_FOTO`;
+delimiter ;;
 CREATE PROCEDURE `SP_MODIFICAR_USUARIO_FOTO`(IN ID INT, IN FOTO VARCHAR(250))
 BEGIN
 UPDATE usuario set
 usuario_imagen=FOTO
 where usuario_id=ID;
 SELECT 1;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_CATEGORIA
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_REGISTRAR_CATEGORIA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_REGISTRAR_CATEGORIA`;
+delimiter ;;
 CREATE PROCEDURE `SP_REGISTRAR_CATEGORIA`(IN CATEGORIA VARCHAR(150))
 BEGIN
 DECLARE CANTIDAD INT; 
@@ -741,11 +1100,15 @@ ELSE
 SELECT 2;
 
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_CLIENTE
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_REGISTRAR_CLIENTE
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_REGISTRAR_CLIENTE`;
+delimiter ;;
 CREATE PROCEDURE `SP_REGISTRAR_CLIENTE`(IN NOMBRE VARCHAR(100), IN APEPAT VARCHAR(50), IN APEMAT VARCHAR(50), IN NUMERODOCUMENTO VARCHAR(11), IN TIPODOCUMENTO VARCHAR(12), IN SEXO VARCHAR(10), IN TELEFONO VARCHAR(12))
 BEGIN
 DECLARE CANTIDAD INT;
@@ -757,32 +1120,44 @@ SELECT 1;
 ELSE
 SELECT 2;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_INGRESO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_REGISTRAR_INGRESO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_REGISTRAR_INGRESO`;
+delimiter ;;
 CREATE PROCEDURE `SP_REGISTRAR_INGRESO`(IN IDPROVEEDOR INT, IN IDUSUARIO INT,
 IN TIPO VARCHAR(50), IN SERIE VARCHAR(20), IN NUM VARCHAR(20), IN TOTAL DECIMAL(10,2), IN IMPUESTO DECIMAL(10,2),
 IN PORCENTAJE DECIMAL(2,2))
 BEGIN 
-INSERT INTO ingreso(proveedor_id,usuario_id,ingreso_tipocomprobante,ingreso_seriecomprobante,
+INSERT INTO ingreso(proveedor_id,usuario_id,ingreso_tipcomprobante,ingreso_seriecomprobante,
 ingreso_numcomprobante, ingreso_fecha, ingreso_total, ingreso_impuesto, ingreso_estatus, ingreso_porcentaje)
-values(IDPROVEEDOR,IDUSUARIO,TIPO,SERIE,NUM,CURDATE(),TOTAL,IMPUESTO,'PENDIENTE',PORCENTAJE);
+values(IDPROVEEDOR,IDUSUARIO,TIPO,SERIE,NUM,CURDATE(),TOTAL,IMPUESTO,'INGRESADO',PORCENTAJE);
 SELECT LAST_INSERT_ID();
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_INGRESO_DETALLE
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_REGISTRAR_INGRESO_DETALLE
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_REGISTRAR_INGRESO_DETALLE`;
+delimiter ;;
 CREATE PROCEDURE `SP_REGISTRAR_INGRESO_DETALLE`(IN ID INT, IN PRODUCTO INT, 
 IN CANTIDAD DECIMAL(10,2), IN PRECIO DECIMAL(10,2))
 INSERT INTO detalle_ingreso(ingreso_id, producto_id, detalleingreso_cantidad,
-detalleingreso_precio)VALUES(ID,PRODUCTO,CANTIDAD,PRECIO)//
-DELIMITER ;
+detalleingreso_precio, detalleingreso_estatus)VALUES(ID,PRODUCTO,CANTIDAD,PRECIO, 'INGRESADO')
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_PERSONA
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_REGISTRAR_PERSONA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_REGISTRAR_PERSONA`;
+delimiter ;;
 CREATE PROCEDURE `SP_REGISTRAR_PERSONA`(IN NOMBRE VARCHAR(100), IN APEPAT VARCHAR(50), IN APEMAT VARCHAR(50), IN NUMERODOCUMENTO VARCHAR(11), IN TIPODOCUMENTO VARCHAR(12), IN SEXO VARCHAR(10), IN TELEFONO VARCHAR(12))
 BEGIN
 DECLARE CANTIDAD INT;
@@ -793,11 +1168,15 @@ SELECT 1;
 ELSE
 SELECT 2;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_PRODUCTO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_REGISTRAR_PRODUCTO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_REGISTRAR_PRODUCTO`;
+delimiter ;;
 CREATE PROCEDURE `SP_REGISTRAR_PRODUCTO`(IN PRODUCTO VARCHAR(255),
 IN PRESENTACION VARCHAR(255), IN CATEGORIA INT, IN UNIDAD INT,
 IN PRECIO DECIMAL(10,2), IN RUTA VARCHAR(255))
@@ -813,12 +1192,16 @@ SELECT 1;
 ELSE
 SELECT 2;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_PROVEEDOR
-DELIMITER //
-CREATE PROCEDURE `SP_REGISTRAR_PROVEEDOR`(IN NOMBRE VARCHAR(100), IN APEPAT VARCHAR(50), IN APEMAT VARCHAR(50), IN NUMERODOCUMENTO VARCHAR(11), IN TIPODOCUMENTO VARCHAR(12), IN SEXO VARCHAR(10), IN TELEFONO VARCHAR(12), IN RAZONSOCIAL VARCHAR(255), IN NOMCONTACTO VARCHAR(255), IN NUMCONTACTO VARCHAR(12) )
+-- ----------------------------
+-- Procedure structure for SP_REGISTRAR_PROVEEDOR
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_REGISTRAR_PROVEEDOR`;
+delimiter ;;
+CREATE PROCEDURE `SP_REGISTRAR_PROVEEDOR`(IN NOMBRE VARCHAR(100), IN APEPAT VARCHAR(50), IN APEMAT VARCHAR(50), IN NUMERODOCUMENTO VARCHAR(11), IN TIPODOCUMENTO VARCHAR(12), IN SEXO VARCHAR(10), IN TELEFONO VARCHAR(12), IN RAZONSOCIAL VARCHAR(255), IN NOMCONTACTO VARCHAR(255), IN NUMCONTACTO VARCHAR(12))
 BEGIN
 DECLARE CANTIDAD INT;
 SET @CANTIDAD:=(SELECT COUNT(*) FROM persona where persona_nrodocumento=NUMERODOCUMENTO AND persona_tipodocumento='RUC');
@@ -829,11 +1212,15 @@ SELECT 1;
 ELSE
 SELECT 2;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_ROL
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_REGISTRAR_ROL
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_REGISTRAR_ROL`;
+delimiter ;;
 CREATE PROCEDURE `SP_REGISTRAR_ROL`(IN NROL VARCHAR(15))
 BEGIN
 DECLARE CANTIDAD INT; 
@@ -849,11 +1236,15 @@ ELSE
 SELECT 2;
 
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_UNIDADMEDIDA
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_REGISTRAR_UNIDADMEDIDA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_REGISTRAR_UNIDADMEDIDA`;
+delimiter ;;
 CREATE PROCEDURE `SP_REGISTRAR_UNIDADMEDIDA`(IN UNIDAD VARCHAR(100), IN ABREVIATURA CHAR(6))
 BEGIN
 DECLARE CANTIDAD INT;
@@ -867,11 +1258,15 @@ SELECT 1;
 ELSE
 SELECT 2;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_REGISTRAR_USUARIO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_REGISTRAR_USUARIO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_REGISTRAR_USUARIO`;
+delimiter ;;
 CREATE PROCEDURE `SP_REGISTRAR_USUARIO`(IN USUARIO VARCHAR(15), IN CONTRA VARCHAR(250), IN IDPERSONA INT, IN EMAIL VARCHAR(250), IN IDROL INT, IN RUTA VARCHAR(250))
 BEGIN
 DECLARE CANTIDAD INT;
@@ -882,11 +1277,92 @@ IF @CANTIDAD = 0 THEN
 ELSE
 	SELECT 2;
 END IF;
-END//
-DELIMITER ;
+END
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_TRAER_DATOS_USUARIO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_REGISTRAR_VENTA
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_REGISTRAR_VENTA`;
+delimiter ;;
+CREATE PROCEDURE `SP_REGISTRAR_VENTA`(IN IDCLIENTE INT, IN IDUSUARIO INT,
+IN TIPO VARCHAR(50), IN SERIE VARCHAR(20), IN NUM VARCHAR(20), IN TOTAL DECIMAL(10,2), IN IMPUESTO DECIMAL(10,2),
+IN PORCENTAJE DECIMAL(2,2))
+BEGIN 
+INSERT INTO venta(cliente_id,usuario_id,venta_tipocomprobante,venta_seriecomprobante,
+venta_numcomprobante, venta_fecha, venta_total, venta_impuesto, venta_estatus, venta_porcentaje)
+values(IDCLIENTE,IDUSUARIO,TIPO,SERIE,NUM,CURDATE(),TOTAL,IMPUESTO,'REGISTRADA',PORCENTAJE);
+SELECT LAST_INSERT_ID();
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for SP_REGISTRAR_VENTA_DETALLE
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_REGISTRAR_VENTA_DETALLE`;
+delimiter ;;
+CREATE PROCEDURE `SP_REGISTRAR_VENTA_DETALLE`(IN ID INT, IN PRODUCTO INT, 
+IN CANTIDAD DECIMAL(10,2), IN PRECIO DECIMAL(10,2))
+INSERT INTO detalle_venta(venta_id, producto_id, detalleventa_cantidad,
+detalleventa_precio, detalleventa_estatus)VALUES(ID,PRODUCTO,CANTIDAD,PRECIO, 'INGRESADO')
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for SP_TRAER_DATOS_GRAFICO_INGRESO_WIDGET
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_TRAER_DATOS_GRAFICO_INGRESO_WIDGET`;
+delimiter ;;
+CREATE PROCEDURE `SP_TRAER_DATOS_GRAFICO_INGRESO_WIDGET`(IN INICIO DATE, IN FIN DATE)
+SELECT 
+producto.producto_nombre,
+sum(detalle_ingreso.detalleingreso_cantidad) as cantidad
+FROM 
+detalle_ingreso
+INNER JOIN 
+producto 
+ON
+detalle_ingreso.producto_id = producto.producto_id
+INNER JOIN 
+ingreso
+ON
+detalle_ingreso.ingreso_id = ingreso.ingreso_id
+where ingreso_fecha BETWEEN INICIO AND FIN 
+GROUP BY detalle_ingreso.producto_id ORDER BY cantidad DESC LIMIT 5
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for SP_TRAER_DATOS_GRAFICO_VENTA_WIDGET
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_TRAER_DATOS_GRAFICO_VENTA_WIDGET`;
+delimiter ;;
+CREATE PROCEDURE `SP_TRAER_DATOS_GRAFICO_VENTA_WIDGET`(IN INICIO DATE, IN FIN DATE)
+SELECT 
+producto.producto_nombre,
+sum(detalle_venta.detalleventa_cantidad) as cantidad
+FROM
+detalle_venta 
+INNER JOIN 
+producto 
+ON 
+detalle_venta.producto_id = producto.producto_id
+INNER JOIN 
+venta 
+ON
+detalle_venta.venta_id = venta.venta_id
+where venta.venta_fecha BETWEEN INICIO AND FIN 
+GROUP BY detalle_venta.producto_id ORDER BY cantidad DESC LIMIT 5
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for SP_TRAER_DATOS_USUARIO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_TRAER_DATOS_USUARIO`;
+delimiter ;;
 CREATE PROCEDURE `SP_TRAER_DATOS_USUARIO`(IN ID INT)
 SELECT 
 usuario.usuario_id,
@@ -916,83 +1392,65 @@ FROM
 	persona
 	ON
 	usuario.persona_id = persona.persona_id
-	where usuario_id=ID//
-DELIMITER ;
+	where usuario_id=ID
+;;
+delimiter ;
 
--- Volcando estructura para procedimiento jhayli.SP_VERIFICAR_USUARIO
-DELIMITER //
+-- ----------------------------
+-- Procedure structure for SP_TRAER_DATOS_WIDGET
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_TRAER_DATOS_WIDGET`;
+delimiter ;;
+CREATE PROCEDURE `SP_TRAER_DATOS_WIDGET`(IN INICIO DATE, IN FIN DATE)
+SELECT
+IFNULL(sum(venta.venta_total),0),
+(SELECT IFNULL(sum(ingreso.ingreso_total),0) from ingreso where ingreso_fecha BETWEEN INICIO AND FIN),
+(SELECT COUNT(*) from venta where venta_fecha BETWEEN INICIO AND FIN),
+(SELECT COUNT(*) from ingreso where ingreso_fecha BETWEEN INICIO AND FIN)
+FROM 
+venta 
+where venta.venta_fecha BETWEEN INICIO AND FIN
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for SP_VERIFICAR_USUARIO
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SP_VERIFICAR_USUARIO`;
+delimiter ;;
 CREATE PROCEDURE `SP_VERIFICAR_USUARIO`(IN USUARIO VARCHAR(15))
-SELECT * FROM usuario WHERE usuario_nombre=USUARIO//
-DELIMITER ;
+SELECT * FROM usuario WHERE usuario_nombre=USUARIO
+;;
+delimiter ;
 
--- Volcando estructura para tabla jhayli.unidad_medida
-CREATE TABLE IF NOT EXISTS `unidad_medida` (
-  `unidad_id` int(11) NOT NULL AUTO_INCREMENT,
-  `unidad_nombre` varchar(100) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `unidad_estatus` enum('ACTIVO','INACTIVO') COLLATE utf8_spanish_ci DEFAULT NULL,
-  `unidad_abreviatura` char(6) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `unidad_fregistro` date DEFAULT NULL,
-  PRIMARY KEY (`unidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+-- ----------------------------
+-- Triggers structure for table detalle_ingreso
+-- ----------------------------
+DROP TRIGGER IF EXISTS `TR_ACTUALIZAR_STOCK_INGRESO`;
+delimiter ;;
+CREATE TRIGGER `TR_ACTUALIZAR_STOCK_INGRESO` BEFORE INSERT ON `detalle_ingreso` FOR EACH ROW BEGIN 
+DECLARE STOCKACTUAL DECIMAL(10,2);
+SET @STOCKACTUAL:=(SELECT producto_stock from producto where producto_id=new.producto_id);
+UPDATE producto set 
+producto_stock=@STOCKACTUAL+new.detalleingreso_cantidad
+where  producto_id=new.producto_id;
+END
+;;
+delimiter ;
 
--- Volcando datos para la tabla jhayli.unidad_medida: ~3 rows (aproximadamente)
-/*!40000 ALTER TABLE `unidad_medida` DISABLE KEYS */;
-INSERT INTO `unidad_medida` (`unidad_id`, `unidad_nombre`, `unidad_estatus`, `unidad_abreviatura`, `unidad_fregistro`) VALUES
-	(1, 'Kilogramo', 'ACTIVO', 'kg', '2021-11-29'),
-	(2, 'Litro', 'ACTIVO', 'L', '2021-11-29'),
-	(3, 'Metro', 'ACTIVO', 'm', '2021-11-29'),
-	(4, 'Centimetro', 'ACTIVO', 'cm', '2021-11-29'),
-	(5, 'Entero', 'ACTIVO', 'E', '2021-11-29');
-/*!40000 ALTER TABLE `unidad_medida` ENABLE KEYS */;
+-- ----------------------------
+-- Triggers structure for table detalle_venta
+-- ----------------------------
+DROP TRIGGER IF EXISTS `TR_ACTUALIZAR_STOCK`;
+delimiter ;;
+CREATE TRIGGER `TR_ACTUALIZAR_STOCK` BEFORE INSERT ON `detalle_venta` FOR EACH ROW BEGIN 
+DECLARE STOCKACTUAL DECIMAL(10,2);
+SET @STOCKACTUAL:=(SELECT producto_stock from producto where producto_id=new.producto_id);
+UPDATE producto set
+producto_stock=@STOCKACTUAL-new.detalleventa_cantidad
+where producto_id=new.producto_id;
+END
+;;
+delimiter ;
 
--- Volcando estructura para tabla jhayli.usuario
-CREATE TABLE IF NOT EXISTS `usuario` (
-  `usuario_id` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario_nombre` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
-  `usuario_password` varchar(250) COLLATE utf8_spanish_ci NOT NULL,
-  `usuario_email` varchar(250) COLLATE utf8_spanish_ci NOT NULL,
-  `usuario_intento` int(11) NOT NULL,
-  `usuario_estatus` enum('ACTIVO','INACTIVO') COLLATE utf8_spanish_ci NOT NULL,
-  `rol_id` int(11) NOT NULL DEFAULT '0',
-  `usuario_imagen` varchar(250) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `persona_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`usuario_id`),
-  KEY `FK_usuario_rol` (`rol_id`),
-  KEY `persona_id` (`persona_id`),
-  CONSTRAINT `FK_usuario_rol` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`rol_id`),
-  CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- Volcando datos para la tabla jhayli.usuario: ~1 rows (aproximadamente)
-/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` (`usuario_id`, `usuario_nombre`, `usuario_password`, `usuario_email`, `usuario_intento`, `usuario_estatus`, `rol_id`, `usuario_imagen`, `persona_id`) VALUES
-	(1, 'admin', '$2y$10$CEQ98B6dCF2kBdPJsfZBMuHhOsDFsHPfGlYA3pX.kA9tFztA/BsXu', 'admin@gmail.com', 1, 'ACTIVO', 1, 'controller/usuario/img/user_defecto.png', NULL);
-/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
-
--- Volcando estructura para tabla jhayli.venta
-CREATE TABLE IF NOT EXISTS `venta` (
-  `venta_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cliente_id` int(11) DEFAULT NULL,
-  `usuario_id` int(11) DEFAULT NULL,
-  `venta_tipocomprobante` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `venta_seriecomprobante` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `venta_numcomprobante` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `venta_fecha` date DEFAULT NULL,
-  `venta_impuesto` decimal(10,2) DEFAULT NULL,
-  `venta_total` decimal(10,2) DEFAULT NULL,
-  `venta_estatus` enum('PAGADA','ANULADA','PENDIENTE') COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`venta_id`),
-  KEY `cliente_id` (`cliente_id`),
-  KEY `usuario_id` (`usuario_id`),
-  CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`cliente_id`),
-  CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- Volcando datos para la tabla jhayli.venta: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `venta` DISABLE KEYS */;
-/*!40000 ALTER TABLE `venta` ENABLE KEYS */;
-
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
+SET FOREIGN_KEY_CHECKS = 1;

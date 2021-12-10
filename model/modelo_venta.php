@@ -1,5 +1,5 @@
 <?php
-    class Modelo_Ingreso{
+    class Modelo_Venta{
         private $conexion;
 
         function __construct()
@@ -9,8 +9,8 @@
             $this->conexion->conectar();
         }
 
-        function Listar_Ingreso($finicio, $ffin){
-            $sql = "call SP_LISTAR_INGRESO('$finicio', '$ffin')";
+        function Listar_Venta($finicio, $ffin){
+            $sql = "call SP_LISTAR_VENTA('$finicio', '$ffin')";
             $arreglo = array();
 
             if ($consulta = $this->conexion->conexion->query($sql)) {
@@ -24,8 +24,8 @@
             }
         }
 
-        function Registrar_Ingreso($idproveedor,$idusuario,$tipo,$serie,$ncomprobante,$total,$impuesto,$porcentaje){
-            $sql = "call SP_REGISTRAR_INGRESO('$idproveedor','$idusuario','$tipo','$serie','$ncomprobante','$total','$impuesto','$porcentaje')";
+        function Registrar_Venta($idcliente,$idusuario,$tipo,$serie,$ncomprobante,$total,$impuesto,$porcentaje){
+            $sql = "call SP_REGISTRAR_VENTA('$idcliente','$idusuario','$tipo','$serie','$ncomprobante','$total','$impuesto','$porcentaje')";
 
             if ($consulta = $this->conexion->conexion->query($sql)) {  
                 if($row=mysqli_fetch_array($consulta)){
@@ -35,8 +35,8 @@
             }
         }
 
-        function Anular_Ingreso($idingreso){
-            $sql = "call SP_ANULAR_INGRESO('$idingreso')";
+        function Anular_Venta($idventa){
+            $sql = "call SP_ANULAR_VENTA('$idventa')";
             if ($consulta = $this->conexion->conexion->query($sql)) {  
                 return 1;
             }else{
@@ -45,8 +45,8 @@
             $this->conexion->cerrar();
         }
 
-        function listar_combo_proveedor(){
-            $sql = "call SP_LISTAR_COMBO_PROVEEDOR()";
+        function listar_combo_cliente(){
+            $sql = "call SP_LISTAR_COMBO_CLIENTE()";
             $arreglo = array();
 
             if ($consulta = $this->conexion->conexion->query($sql)) {
@@ -75,8 +75,8 @@
             }
         }
 
-        function Registrar_Ingreso_Detalle($id,$array_producto,$array_cantidad,$array_precio){
-            $sql = "call SP_REGISTRAR_INGRESO_DETALLE('$id','$array_producto','$array_cantidad','$array_precio')";
+        function Registrar_Venta_Detalle($id,$array_producto,$array_cantidad,$array_precio){
+            $sql = "call SP_REGISTRAR_VENTA_DETALLE('$id','$array_producto','$array_cantidad','$array_precio')";
 
             if ($consulta = $this->conexion->conexion->query($sql)) {  
                 return 1;
