@@ -224,9 +224,9 @@ function SumarTotalneto(){
         var suma = arreglo_total[i];
         Subtotal = (parseFloat(total) + parseFloat(suma)).toFixed(2);
         impuesto_total = parseFloat(Subtotal*impuesto).toFixed(2);
+        total=parseFloat(Subtotal)+parseFloat(impuesto_total);
     };
 
-    total=parseFloat(Subtotal)+parseFloat(impuesto_total);
     var tipo = document.getElementById('cbm_tipo').value;
     if(tipo=="FACTURA"){
         $("#lbl_subtotal").html("<b>Sub total: </b> S/."+Subtotal);

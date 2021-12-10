@@ -150,6 +150,17 @@
                             <span class="nav-label">Ingresos</span><i class="fa fa-angle-left arrow"></i></a>
                     </li>
                     <?php } ?>
+                    <?php if ($_SESSION['S_ROL']=='5'){ ?>
+                    <li class="heading">MENÚ VENDEDOR</li>
+                    <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','cliente/vista_mantenimiento_cliente.php')"><i class="sidebar-item-icon ti-id-badge"></i>
+                            <span class="nav-label">Cliente</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>
+                    <li>
+                        <a href="javascript:cargar_contenido('contenido_principal','venta/vista_matenimiento_venta.php')"><i class="sidebar-item-icon fa fa-dropbox"></i>
+                            <span class="nav-label">Ventas</span><i class="fa fa-angle-left arrow"></i></a>
+                    </li>   
+                    <?php } ?>
                 </ul>
             </div>
         </nav>

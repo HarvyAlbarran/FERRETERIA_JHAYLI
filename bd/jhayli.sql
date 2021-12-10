@@ -11,7 +11,7 @@
  Target Server Version : 50733
  File Encoding         : 65001
 
- Date: 09/12/2021 23:07:40
+ Date: 10/12/2021 01:28:07
 */
 
 SET NAMES utf8mb4;
@@ -27,13 +27,22 @@ CREATE TABLE `categoria`  (
   `categoria_fregistro` date NULL DEFAULT NULL,
   `categoria_estatus` enum('ACTIVO','INACTIVO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`categoria_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of categoria
 -- ----------------------------
-INSERT INTO `categoria` VALUES (1, 'CONSTRUCCIÓN', '2021-11-25', 'ACTIVO');
-INSERT INTO `categoria` VALUES (2, 'ELÉCTRICOS', '2021-11-25', 'ACTIVO');
+INSERT INTO `categoria` VALUES (3, 'CONSTRUCCIÓN', '2021-12-10', 'ACTIVO');
+INSERT INTO `categoria` VALUES (4, 'MATERIALES ELECTRICOS', '2021-12-10', 'ACTIVO');
+INSERT INTO `categoria` VALUES (5, 'FONTANERIA', '2021-12-10', 'ACTIVO');
+INSERT INTO `categoria` VALUES (6, 'HERRAMIENTAS', '2021-12-10', 'ACTIVO');
+INSERT INTO `categoria` VALUES (7, 'CERRAJERIA', '2021-12-10', 'ACTIVO');
+INSERT INTO `categoria` VALUES (8, 'ACABADOS', '2021-12-10', 'ACTIVO');
+INSERT INTO `categoria` VALUES (9, 'EQUIPAMIENTO LIGERO', '2021-12-10', 'ACTIVO');
+INSERT INTO `categoria` VALUES (10, 'SOLDADURA', '2021-12-10', 'ACTIVO');
+INSERT INTO `categoria` VALUES (11, 'PINTURA Y ACCESORIOS', '2021-12-10', 'ACTIVO');
+INSERT INTO `categoria` VALUES (12, 'ARTICULOS DE LIMPIEZA', '2021-12-10', 'ACTIVO');
+INSERT INTO `categoria` VALUES (13, 'EMPAQUETADURA', '2021-12-10', 'ACTIVO');
 
 -- ----------------------------
 -- Table structure for cliente
@@ -47,12 +56,17 @@ CREATE TABLE `cliente`  (
   PRIMARY KEY (`cliente_id`) USING BTREE,
   INDEX `persona_id`(`persona_id`) USING BTREE,
   CONSTRAINT `cliente_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of cliente
 -- ----------------------------
-INSERT INTO `cliente` VALUES (1, '2021-12-01', 'ACTIVO', 2);
+INSERT INTO `cliente` VALUES (2, '2021-12-10', 'ACTIVO', 24);
+INSERT INTO `cliente` VALUES (3, '2021-12-10', 'ACTIVO', 25);
+INSERT INTO `cliente` VALUES (4, '2021-12-10', 'ACTIVO', 26);
+INSERT INTO `cliente` VALUES (5, '2021-12-10', 'ACTIVO', 27);
+INSERT INTO `cliente` VALUES (6, '2021-12-10', 'ACTIVO', 28);
+INSERT INTO `cliente` VALUES (7, '2021-12-10', 'ACTIVO', 29);
 
 -- ----------------------------
 -- Table structure for detalle_ingreso
@@ -70,12 +84,17 @@ CREATE TABLE `detalle_ingreso`  (
   INDEX `producto_id`(`producto_id`) USING BTREE,
   CONSTRAINT `detalle_ingreso_ibfk_1` FOREIGN KEY (`ingreso_id`) REFERENCES `ingreso` (`ingreso_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `detalle_ingreso_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`producto_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of detalle_ingreso
 -- ----------------------------
-INSERT INTO `detalle_ingreso` VALUES (4, 24, 1, 5.00, 10.50, 'INGRESADO');
+INSERT INTO `detalle_ingreso` VALUES (5, 25, 4, 20.00, 50.00, 'INGRESADO');
+INSERT INTO `detalle_ingreso` VALUES (6, 25, 5, 30.00, 25.50, 'INGRESADO');
+INSERT INTO `detalle_ingreso` VALUES (9, 27, 6, 10.00, 40.50, 'INGRESADO');
+INSERT INTO `detalle_ingreso` VALUES (10, 27, 7, 15.00, 4.00, 'INGRESADO');
+INSERT INTO `detalle_ingreso` VALUES (11, 28, 8, 25.00, 7.00, 'INGRESADO');
+INSERT INTO `detalle_ingreso` VALUES (12, 28, 9, 50.00, 7.00, 'INGRESADO');
 
 -- ----------------------------
 -- Table structure for detalle_venta
@@ -93,15 +112,17 @@ CREATE TABLE `detalle_venta`  (
   INDEX `producto_id`(`producto_id`) USING BTREE,
   CONSTRAINT `detalle_venta_ibfk_1` FOREIGN KEY (`venta_id`) REFERENCES `venta` (`venta_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `detalle_venta_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`producto_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of detalle_venta
 -- ----------------------------
-INSERT INTO `detalle_venta` VALUES (4, 7, 1, 3.00, 10.00, 'ANULADA');
-INSERT INTO `detalle_venta` VALUES (5, 8, 1, 3.00, 10.00, 'ANULADA');
-INSERT INTO `detalle_venta` VALUES (6, 9, 1, 3.00, 10.00, 'ANULADA');
-INSERT INTO `detalle_venta` VALUES (7, 10, 1, 3.00, 10.00, 'INGRESADO');
+INSERT INTO `detalle_venta` VALUES (8, 11, 4, 2.00, 60.00, 'INGRESADO');
+INSERT INTO `detalle_venta` VALUES (9, 11, 5, 5.00, 30.00, 'INGRESADO');
+INSERT INTO `detalle_venta` VALUES (10, 12, 6, 5.00, 45.00, 'INGRESADO');
+INSERT INTO `detalle_venta` VALUES (11, 12, 7, 8.00, 7.00, 'INGRESADO');
+INSERT INTO `detalle_venta` VALUES (12, 13, 8, 3.00, 10.00, 'INGRESADO');
+INSERT INTO `detalle_venta` VALUES (13, 13, 9, 10.00, 10.00, 'INGRESADO');
 
 -- ----------------------------
 -- Table structure for ingreso
@@ -124,12 +145,14 @@ CREATE TABLE `ingreso`  (
   INDEX `usuario_id`(`usuario_id`) USING BTREE,
   CONSTRAINT `ingreso_ibfk_1` FOREIGN KEY (`proveedor_id`) REFERENCES `proveedor` (`proveedor_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ingreso_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ingreso
 -- ----------------------------
-INSERT INTO `ingreso` VALUES (24, 2, 1, 'BOLETA', '001', '001', '2021-12-09', 52.50, 0.00, 'INGRESADO', 0.00);
+INSERT INTO `ingreso` VALUES (25, 3, 1, 'BOLETA', '001', '001', '2021-12-10', 765.00, 0.00, 'INGRESADO', 0.00);
+INSERT INTO `ingreso` VALUES (27, 3, 1, 'FACTURA', '002', '002', '2021-12-10', 556.05, 50.55, 'INGRESADO', 0.10);
+INSERT INTO `ingreso` VALUES (28, 5, 1, 'BOLETA', '003', '003', '2021-12-10', 525.00, 0.00, 'INGRESADO', 0.00);
 
 -- ----------------------------
 -- Table structure for persona
@@ -147,19 +170,33 @@ CREATE TABLE `persona`  (
   `persona_fregistro` date NULL DEFAULT NULL,
   `persona_estatus` enum('ACTIVO','INACTIVO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`persona_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of persona
 -- ----------------------------
 INSERT INTO `persona` VALUES (1, 'HARVY', 'ALBARRAN', 'SALAZAR', '48251369', 'DNI', 'MASCULINO', '984198324', '2021-11-23', 'ACTIVO');
-INSERT INTO `persona` VALUES (2, 'JENNIFFER GERALDINE', 'DIAZ', 'CORONADO', '46894656', 'DNI', 'FEMENINO', '986413872', '2021-11-24', 'ACTIVO');
-INSERT INTO `persona` VALUES (3, 'PERLA', 'PAICO', 'SANTOS', '5648315821', 'PASAPORTE', 'FEMENINO', '982572310', '2021-11-24', 'ACTIVO');
-INSERT INTO `persona` VALUES (4, 'SEGUNDO', 'ASENJO', 'SAAVEDRA', '78456632', 'DNI', 'MASCULINO', '982158232', '2021-11-24', 'ACTIVO');
-INSERT INTO `persona` VALUES (5, 'ERNESTO', 'HUAMAN', 'MIO', '43564125', 'DNI', 'MASCULINO', '985482135', '2021-11-26', 'ACTIVO');
-INSERT INTO `persona` VALUES (6, 'WILMER', 'CUNYARACHE', 'ROñA', '64543561', 'DNI', 'MASCULINO', '974356432', '2021-11-26', 'ACTIVO');
-INSERT INTO `persona` VALUES (7, 'LUCILA', 'CRUZ', 'LLAGUENTO', '68742348', 'DNI', 'FEMENINO', '987542345', '2021-11-26', 'ACTIVO');
-INSERT INTO `persona` VALUES (8, 'FERRETERIA DIAZ', 'PEREZ', 'VASQUEZ', '78943215825', 'RUC', 'FEMENINO', '984214511', '2021-12-02', 'ACTIVO');
+INSERT INTO `persona` VALUES (9, 'JENNIFFER', 'DIAZ', 'CORONADO', '75482135', 'DNI', 'FEMENINO', '987585360', '2021-12-09', 'ACTIVO');
+INSERT INTO `persona` VALUES (10, 'PAOLA', 'PAICO', 'SANTOS', '78451235', 'DNI', 'FEMENINO', '981511100', '2021-12-09', 'ACTIVO');
+INSERT INTO `persona` VALUES (11, 'SEGUNDO', 'ASENJO', 'SAAVEDRA', '74112563', 'DNI', 'MASCULINO', '988851200', '2021-12-09', 'ACTIVO');
+INSERT INTO `persona` VALUES (12, 'ERNESTO', 'HUAMAN', 'MIO', '78453210', 'DNI', 'MASCULINO', '988812102', '2021-12-09', 'ACTIVO');
+INSERT INTO `persona` VALUES (13, 'WILMER ', 'CUNYARACHE', 'ROñA', '78912322', 'DNI', 'MASCULINO', '984552364', '2021-12-09', 'ACTIVO');
+INSERT INTO `persona` VALUES (14, 'LUCILA', 'CRUZ', 'LLAGUENTO', '78945632', 'DNI', 'FEMENINO', '982223610', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (15, 'LUIS', 'NEYRA', ' URTEAGA', '79843120', 'DNI', 'MASCULINO', '982130157', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (16, 'NICOLE', 'TORRES', 'PLASENCIA', '78413235', 'DNI', 'FEMENINO', '984631002', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (17, 'VIVIANA', 'HEREDIA', 'FERNANDEZ', '78412321', 'DNI', 'FEMENINO', '984320358', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (18, 'LUPE', 'VILLALOBOS', 'PEREZ', '79841163', 'DNI', 'FEMENINO', '981332180', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (19, 'EDWIN', 'SANTAMARIA', 'PINGO', '78616258', 'DNI', 'MASCULINO', '984130358', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (20, 'NAHOMI', 'SANCHEZ ', 'TAPIA ', '78130055', 'DNI', 'FEMENINO', '984321581', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (21, 'ROSA', 'NUñEZ', 'PEREZ', '78961432810', 'RUC', 'FEMENINO', '984214511', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (22, 'MARIA', 'PAICO', 'RODAS', '1084318315', 'RUC', 'FEMENINO', '981315812', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (23, 'JUAN', 'PEREZ', 'VASQUEZ', '1023568212', 'RUC', 'MASCULINO', '981235812', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (24, 'ANA', 'LAVADO ', 'ARTEAGA', '798132138', 'DNI', 'FEMENINO', '984315102', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (25, 'MIGUEL', 'DIAZ', 'VIDARTE', '78941321', 'DNI', 'MASCULINO', '981325400', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (26, 'YOLANDA', 'MEJIA', 'BACA', '789123100', 'DNI', 'FEMENINO', '987132031', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (27, 'VICTOR', 'MORALES', 'VARGAS', '78945612', 'DNI', 'MASCULINO', '912345687', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (28, 'CAMILA', 'ZUNIGA', 'LLATAS', '79813254', 'DNI', 'FEMENINO', '989315212', '2021-12-10', 'ACTIVO');
+INSERT INTO `persona` VALUES (29, 'RONALDO', 'DOS SANTOS', 'AVEIRO ', '78943218', 'DNI', 'MASCULINO', '952386212', '2021-12-10', 'ACTIVO');
 
 -- ----------------------------
 -- Table structure for producto
@@ -180,14 +217,17 @@ CREATE TABLE `producto`  (
   INDEX `unidad_id`(`unidad_id`) USING BTREE,
   CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`categoria_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `producto_ibfk_2` FOREIGN KEY (`unidad_id`) REFERENCES `unidad_medida` (`unidad_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of producto
 -- ----------------------------
-INSERT INTO `producto` VALUES (1, 'Martillo', 'Andino', 15.00, 1, 5, 'controller/producto/img/producto_default.png', 10.00, 'ACTIVO');
-INSERT INTO `producto` VALUES (2, 'CEMENTO', 'PACASMAYO ROJO', 0.00, 1, 5, 'controller/producto/img/producto_default.png', 31.50, 'ACTIVO');
-INSERT INTO `producto` VALUES (3, 'CEMENTO AZUL', 'PACASMAYO ', 10.00, 1, 1, 'controller/producto/img/PRO112202112943.png', 32.50, 'ACTIVO');
+INSERT INTO `producto` VALUES (4, 'LáTEX BLANCO', 'CPP', 18.00, 11, 8, 'controller/producto/img/PRO1012202104142.png', 60.00, 'ACTIVO');
+INSERT INTO `producto` VALUES (5, 'CEMENTO PORTLAND', 'PACASMAYO ', 25.00, 3, 6, 'controller/producto/img/PRO1012202104323.JPG', 30.00, 'ACTIVO');
+INSERT INTO `producto` VALUES (6, 'LLAVE STILSON', 'KAMASA ', 30.00, 6, 13, 'controller/producto/img/PRO101220210471.JPG', 45.00, 'ACTIVO');
+INSERT INTO `producto` VALUES (7, 'INTERRUPTOR ', 'BTICINO', 37.00, 4, 13, 'controller/producto/img/PRO1012202104835.JPG', 7.00, 'ACTIVO');
+INSERT INTO `producto` VALUES (8, 'DESINFECTANTE', 'CLOROX', 22.00, 12, 13, 'controller/producto/img/PRO1012202105056.JPEG', 10.00, 'ACTIVO');
+INSERT INTO `producto` VALUES (9, 'TUBO DE ACERO', 'INYECTOPLAST', 40.00, 5, 13, 'controller/producto/img/PRO1012202105350.jpeg', 10.00, 'ACTIVO');
 
 -- ----------------------------
 -- Table structure for proveedor
@@ -203,12 +243,14 @@ CREATE TABLE `proveedor`  (
   PRIMARY KEY (`proveedor_id`) USING BTREE,
   INDEX `persona_id`(`persona_id`) USING BTREE,
   CONSTRAINT `proveedor_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of proveedor
 -- ----------------------------
-INSERT INTO `proveedor` VALUES (2, '958514332', 'FERRETERIA DIAZ', 'ACTIVO', 8, 'AV. CHICLAYO Y CORNEJO');
+INSERT INTO `proveedor` VALUES (3, '958514332', 'PEñITA', 'ACTIVO', 21, 'CENTRO FERRETERO &quot;PEñITA&quot;');
+INSERT INTO `proveedor` VALUES (4, '984210352', 'MARIA', 'ACTIVO', 22, 'DISTRIBUIDORA FERRETERA N&amp;G');
+INSERT INTO `proveedor` VALUES (5, '984210352', 'JUAN', 'ACTIVO', 23, 'INDUSTRIAS SUDUT');
 
 -- ----------------------------
 -- Table structure for rol
@@ -220,14 +262,14 @@ CREATE TABLE `rol`  (
   `rol_estatus` enum('ACTIVO','INACTIVO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `rol_feregistro` date NULL DEFAULT NULL,
   PRIMARY KEY (`rol_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of rol
 -- ----------------------------
-INSERT INTO `rol` VALUES (1, 'ADMIN', 'ACTIVO', '2021-11-22');
-INSERT INTO `rol` VALUES (3, 'VENDEDOR', 'ACTIVO', '2021-11-23');
+INSERT INTO `rol` VALUES (1, 'ADMINISTRADOR', 'ACTIVO', '2021-11-22');
 INSERT INTO `rol` VALUES (4, 'JEFE DE ALMACEN', 'ACTIVO', '2021-12-09');
+INSERT INTO `rol` VALUES (5, 'VENDEDOR', 'ACTIVO', '2021-12-10');
 
 -- ----------------------------
 -- Table structure for unidad_medida
@@ -240,16 +282,19 @@ CREATE TABLE `unidad_medida`  (
   `unidad_abreviatura` char(6) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
   `unidad_fregistro` date NULL DEFAULT NULL,
   PRIMARY KEY (`unidad_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of unidad_medida
 -- ----------------------------
-INSERT INTO `unidad_medida` VALUES (1, 'Kilogramo', 'ACTIVO', 'kg', '2021-11-29');
-INSERT INTO `unidad_medida` VALUES (2, 'Litro', 'ACTIVO', 'L', '2021-11-29');
-INSERT INTO `unidad_medida` VALUES (3, 'Metro', 'ACTIVO', 'm', '2021-11-29');
-INSERT INTO `unidad_medida` VALUES (4, 'Centimetro', 'ACTIVO', 'cm', '2021-11-29');
-INSERT INTO `unidad_medida` VALUES (5, 'Entero', 'ACTIVO', 'E', '2021-11-29');
+INSERT INTO `unidad_medida` VALUES (6, 'Kilogramos', 'ACTIVO', 'kg', '2021-12-10');
+INSERT INTO `unidad_medida` VALUES (7, 'Metro', 'ACTIVO', 'm', '2021-12-10');
+INSERT INTO `unidad_medida` VALUES (8, 'Litros', 'ACTIVO', 'L', '2021-12-10');
+INSERT INTO `unidad_medida` VALUES (9, 'Milimetros', 'ACTIVO', 'ml', '2021-12-10');
+INSERT INTO `unidad_medida` VALUES (10, 'Centimetros', 'ACTIVO', 'cm', '2021-12-10');
+INSERT INTO `unidad_medida` VALUES (11, 'Gramos', 'ACTIVO', 'g', '2021-12-10');
+INSERT INTO `unidad_medida` VALUES (12, 'Unidad de Millar', 'ACTIVO', 'um', '2021-12-10');
+INSERT INTO `unidad_medida` VALUES (13, 'Entero', 'ACTIVO', 'E', '2021-12-10');
 
 -- ----------------------------
 -- Table structure for usuario
@@ -270,13 +315,18 @@ CREATE TABLE `usuario`  (
   INDEX `persona_id`(`persona_id`) USING BTREE,
   CONSTRAINT `FK_usuario_rol` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`rol_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`persona_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
 INSERT INTO `usuario` VALUES (1, 'admin', '$2y$10$CEQ98B6dCF2kBdPJsfZBMuHhOsDFsHPfGlYA3pX.kA9tFztA/BsXu', 'admin@gmail.com', 1, 'ACTIVO', 1, 'controller/usuario/img/user_defecto.png', NULL);
 INSERT INTO `usuario` VALUES (2, 'harvy', '$2y$10$BTIoLG2nLwAwQ55XLZL0aOZbmzuJLejoMOraWjRMJCPQvGZlFBOI6', 'harvy@gmail.com', 1, 'ACTIVO', 4, 'controller/usuario/img/IMG912202135643.png', 1);
+INSERT INTO `usuario` VALUES (3, 'Jenniffer', '$2y$10$Uag50jrfEteBUR8UTYlIJeV7oC7ElNrdZDlRKLrlAvtKSVtCmYzb.', 'jenni@gmail.com', 1, 'ACTIVO', 1, 'controller/usuario/img/user_defecto.png', 9);
+INSERT INTO `usuario` VALUES (4, 'Paola', '$2y$10$P288tPvU7V466n1nEyN0e.uzoxh/xLvaz5aYdYpSNGwfzzRv6HE6G', 'pao@gmail.com', 1, 'ACTIVO', 1, 'controller/usuario/img/user_defecto.png', 10);
+INSERT INTO `usuario` VALUES (5, 'Segundo', '$2y$10$AlYyVOHcgZg6/APBaGtRFu8JlH5Suff0EoimG7/ntcBtBXYrhsoFS', 'segundo@gmail.com', 1, 'ACTIVO', 4, 'controller/usuario/img/user_defecto.png', 11);
+INSERT INTO `usuario` VALUES (6, 'Ernesto', '$2y$10$oPf559Xd8W65HmyMtaIvue7INmo5572bxto54f61s8jj1d4wPeWW.', 'ernesto@gmail.com', 1, 'ACTIVO', 1, 'controller/usuario/img/user_defecto.png', 12);
+INSERT INTO `usuario` VALUES (7, 'Wilmer', '$2y$10$scWd86U7j1EFpaAjNOrcZ.JaE3PxBIOf4G.h.jKjZmMRXH1/h34XK', 'wilmer@gmail.com', 1, 'ACTIVO', 5, 'controller/usuario/img/user_defecto.png', 13);
 
 -- ----------------------------
 -- Table structure for venta
@@ -299,15 +349,14 @@ CREATE TABLE `venta`  (
   INDEX `usuario_id`(`usuario_id`) USING BTREE,
   CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`cliente_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of venta
 -- ----------------------------
-INSERT INTO `venta` VALUES (7, 1, 1, 'BOLETA', '001', '001', '2021-12-08', 0.00, 30.00, 'ANULADA', 0.00);
-INSERT INTO `venta` VALUES (8, 1, 1, 'BOLETA', '002', '002', '2021-12-08', 0.00, 30.00, 'ANULADA', 0.00);
-INSERT INTO `venta` VALUES (9, 1, 1, 'BOLETA', '003', '003', '2021-12-08', 0.00, 30.00, 'ANULADA', 0.00);
-INSERT INTO `venta` VALUES (10, 1, 1, 'BOLETA', '001', '001', '2021-12-09', 0.00, 30.00, 'REGISTRADA', 0.00);
+INSERT INTO `venta` VALUES (11, 2, 1, 'BOLETA', '001', '001', '2021-12-10', 0.00, 270.00, 'REGISTRADA', 0.00);
+INSERT INTO `venta` VALUES (12, 3, 1, 'FACTURA', '002', '002', '2021-12-10', 30.35, 333.85, 'REGISTRADA', 0.10);
+INSERT INTO `venta` VALUES (13, 4, 1, 'BOLETA', '003', '003', '2021-12-10', 0.00, 130.00, 'REGISTRADA', 0.00);
 
 -- ----------------------------
 -- Procedure structure for SP_ACTUALIZAR_CONTRA_USUARIO
@@ -652,7 +701,7 @@ DROP PROCEDURE IF EXISTS `SP_LISTAR_CLIENTE`;
 delimiter ;;
 CREATE PROCEDURE `SP_LISTAR_CLIENTE`()
 SELECT
-	CONCAT(' ', persona.persona_nombre, persona.persona_apepat, persona.persona_apemat) AS persona, 
+	CONCAT_WS(' ', persona.persona_nombre, persona.persona_apepat, persona.persona_apemat) AS persona, 
 	persona.persona_nrodocumento, 
 	persona.persona_tipodocumento, 
 	persona.persona_sexo, 
